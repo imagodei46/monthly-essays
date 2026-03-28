@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JK's Library</title>
+<meta name="description" content="JK의 월간 에세이 — 디지털과 아날로그 OS 사이를 유영하는 기록">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JK's Library — Monthly Essays">
+<meta property="og:description" content="매달 한 편, 나만의 언어로 기록하는 에세이">
+<meta property="og:url" content="https://imagodei46.github.io/monthly-essays/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --shelf-wood:#8B6914;--shelf-dark:#5C4A1E;--shelf-light:#A07D2E;
+    --wall-bg:#2C2418;--page-cream:#F5F0E8;--page-aged:#EDE6D6;
+    --text-dark:#2A2520;--text-body:#3D352E;--accent-gold:#B8963E;
+  }
+  html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Serif KR',serif;}
+
+  /* ═══ BOOKSHELF ═══ */
+  #bookshelf-scene{width:100%;height:100%;background:var(--wall-bg);background-image:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(255,200,100,0.06),transparent),repeating-linear-gradient(90deg,transparent,transparent 120px,rgba(0,0,0,0.02) 120px,rgba(0,0,0,0.02) 121px),repeating-linear-gradient(0deg,transparent,transparent 120px,rgba(0,0,0,0.02) 120px,rgba(0,0,0,0.02) 121px);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.6s ease;position:relative;}
+  #bookshelf-scene.hidden{opacity:0;pointer-events:none;position:absolute;}
+  .site-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;letter-spacing:0.35em;color:rgba(200,180,140,0.5);text-transform:uppercase;margin-bottom:48px;text-align:center;}
+  .site-title span{display:block;font-size:0.7rem;letter-spacing:0.5em;margin-top:6px;color:rgba(200,180,140,0.3);}
+  .shelf-unit{position:relative;width:700px;max-width:90vw;}
+  .shelf-row{position:relative;height:220px;display:flex;align-items:flex-end;justify-content:center;padding:0 40px;gap:12px;}
+  .shelf-board{position:absolute;bottom:0;left:-20px;right:-20px;height:18px;background:linear-gradient(180deg,var(--shelf-light) 0%,var(--shelf-wood) 40%,var(--shelf-dark) 100%);border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,0.5),0 2px 4px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.1);}
+  .shelf-board::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent 5%,rgba(255,255,255,0.08) 20%,rgba(255,255,255,0.12) 50%,rgba(255,255,255,0.08) 80%,transparent 95%);border-radius:2px 2px 0 0;}
+  .shelf-board::after{content:'';position:absolute;bottom:-8px;left:0;right:0;height:8px;background:linear-gradient(180deg,rgba(0,0,0,0.2),transparent);}
+  .shelf-bracket{position:absolute;bottom:18px;width:14px;height:50px;z-index:-1;}.shelf-bracket.left{left:30px;}.shelf-bracket.right{right:30px;}
+  .shelf-bracket::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:6px;height:100%;background:linear-gradient(90deg,#6B5A30,#8B7440,#6B5A30);border-radius:1px;box-shadow:1px 2px 4px rgba(0,0,0,0.3);}
+  .book-spine{position:relative;bottom:18px;cursor:pointer;border-radius:3px 4px 4px 3px;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease;transform-origin:bottom center;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+  .book-spine:hover{transform:translateY(-12px) scale(1.02);box-shadow:0 12px 24px rgba(0,0,0,0.4),0 0 30px rgba(255,200,100,0.08);}
+  .book-spine::before{content:'';position:absolute;top:0;left:0;width:6px;height:100%;background:linear-gradient(90deg,rgba(0,0,0,0.25),rgba(0,0,0,0.05),transparent);border-radius:3px 0 0 3px;}
+  .book-spine::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.15));}
+  .spine-title{writing-mode:vertical-rl;text-orientation:mixed;font-size:0.78rem;font-weight:500;letter-spacing:0.12em;line-height:1;padding:10px 0;text-shadow:0 1px 2px rgba(0,0,0,0.3);}
+  .spine-year{writing-mode:vertical-rl;font-family:'Cormorant Garamond',serif;font-size:0.65rem;letter-spacing:0.15em;opacity:0.7;margin-top:8px;}
+  .spine-decoration{width:60%;height:1px;margin:6px 0;opacity:0.4;}
+  .book-1{width:46px;height:172px;background:linear-gradient(135deg,#141820,#1A2030,#141820);box-shadow:2px 2px 8px rgba(0,0,0,0.4),inset 0 0 20px rgba(0,0,0,0.1);}
+  .book-2{width:48px;height:178px;background:linear-gradient(135deg,#1a2744,#243656,#1a2744);box-shadow:2px 2px 8px rgba(0,0,0,0.4),inset 0 0 20px rgba(0,0,0,0.1);}
+  .book-placeholder{bottom:18px;border-radius:3px;position:relative;}
+  .bp1{width:38px;height:168px;background:linear-gradient(135deg,#5C3A2E,#7A4E3D);}.bp2{width:42px;height:158px;background:linear-gradient(135deg,#3A4A3E,#4E6254);}.bp3{width:35px;height:172px;background:linear-gradient(135deg,#4A3A5C,#634E7A);}.bp4{width:44px;height:155px;background:linear-gradient(135deg,#5C5040,#7A6A54);}.bp5{width:36px;height:165px;background:linear-gradient(135deg,#3E4A5C,#54627A);}
+  .shelf-footnote{font-family:'Cormorant Garamond',serif;font-size:0.72rem;color:rgba(200,180,140,0.25);letter-spacing:0.3em;margin-top:48px;text-align:center;}
+
+  /* ═══ READER ═══ */
+  #book-reader{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,18,14,0.95);display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.5s ease;z-index:100;}
+  #book-reader.active{opacity:1;pointer-events:all;}
+  .reader-header{display:flex;align-items:center;justify-content:space-between;width:960px;max-width:94vw;margin-bottom:12px;padding:0 4px;}
+  .reader-back{font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:rgba(200,180,140,0.5);background:none;border:none;cursor:pointer;letter-spacing:0.15em;transition:color 0.3s;padding:8px 0;}
+  .reader-back:hover{color:rgba(200,180,140,0.8);}
+  .reader-page-info{font-family:'Cormorant Garamond',serif;font-size:0.78rem;color:rgba(200,180,140,0.35);letter-spacing:0.1em;}
+
+  /* ═══ BOOK SPREAD ═══ */
+  .book-spread{width:960px;height:640px;max-width:94vw;max-height:80vh;display:flex;position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.5),0 2px 10px rgba(0,0,0,0.3);border-radius:6px;}
+  .book-left{width:50%;height:100%;background:var(--page-aged);border-radius:6px 0 0 6px;display:flex;flex-direction:column;justify-content:center;padding:44px 32px 40px 36px;position:relative;overflow:hidden;box-shadow:inset -4px 0 12px rgba(0,0,0,0.06);}
+  .book-left .cur-label{font-family:'Cormorant Garamond',serif;font-size:0.56rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent-gold);margin-bottom:8px;opacity:0.7;}
+  .book-left .cur-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;color:var(--text-dark);line-height:1.5;margin-bottom:5px;transition:opacity 0.3s;}
+  .book-left .cur-sec{font-family:'Noto Serif KR',serif;font-size:0.66rem;font-weight:300;color:rgba(60,50,40,0.45);line-height:1.5;margin-bottom:28px;min-height:18px;transition:opacity 0.3s;}
+  .ch-nav{list-style:none;display:flex;flex-direction:column;gap:1px;}
+  .ch-nav li{font-size:0.6rem;font-weight:300;color:rgba(60,50,40,0.3);padding:5px 9px;border-radius:3px;cursor:pointer;transition:all 0.25s;line-height:1.5;border-left:2px solid transparent;}
+  .ch-nav li:hover{color:rgba(60,50,40,0.55);background:rgba(184,150,62,0.03);}
+  .ch-nav li.active{color:var(--text-dark);font-weight:500;border-left-color:var(--accent-gold);background:rgba(184,150,62,0.06);}
+  .ch-nav li .cn{font-family:'Cormorant Garamond',serif;font-size:0.52rem;color:var(--accent-gold);letter-spacing:0.12em;display:block;margin-bottom:1px;opacity:0.6;}
+  .book-left .bm{margin-top:auto;padding-top:20px;border-top:1px solid rgba(0,0,0,0.05);}
+  .book-left .bm-t{font-family:'Playfair Display',serif;font-size:0.62rem;font-weight:400;color:rgba(60,50,40,0.35);margin-bottom:2px;}
+  .book-left .bm-d{font-family:'Cormorant Garamond',serif;font-size:0.54rem;color:rgba(60,50,40,0.2);letter-spacing:0.15em;}
+
+  /* Cover mode left */
+  .book-left.cover-mode{justify-content:center;align-items:center;text-align:center;}
+  .cl-content{display:flex;flex-direction:column;align-items:center;}
+  .toc-t{font-family:'Cormorant Garamond',serif;font-size:0.68rem;letter-spacing:0.3em;color:rgba(100,90,75,0.4);text-transform:uppercase;margin-bottom:20px;}
+  .toc-ch{font-family:'Cormorant Garamond',serif;font-size:0.56rem;color:var(--accent-gold);letter-spacing:0.12em;margin-top:12px;margin-bottom:2px;}
+  .toc-it{font-size:0.58rem;font-weight:300;color:var(--text-body);line-height:1.9;}
+  .toc-it.sub{color:rgba(60,50,40,0.35);font-size:0.54rem;}
+  .toc-ln{width:20px;height:1px;background:var(--accent-gold);opacity:0.2;margin:10px auto;}
+
+  /* ═══ RIGHT: content ═══ */
+  .book-right{width:50%;height:100%;cursor:pointer;position:relative;overflow:hidden;border-radius:0 6px 6px 0;background:var(--page-cream);}
+  .spine-shadow{position:absolute;left:0;top:0;width:10px;height:100%;z-index:20;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,0.1),rgba(0,0,0,0.02),transparent);}
+  .rp{position:absolute;top:0;left:0;width:100%;height:100%;padding:44px 42px 40px 38px;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.35s ease,transform 0.35s ease;transform:translateX(10px);overflow:hidden;}
+  .rp.active{opacity:1;pointer-events:all;transform:translateX(0);}
+  .rp.exit{opacity:0;transform:translateX(-10px);}
+  .rp.cover-pg{padding:0;display:flex;align-items:center;justify-content:center;border-radius:0 6px 6px 0;}
+  .rp.t1{background:linear-gradient(135deg,#141820,#1A2030,#141820);}
+  .rp.t2{background:linear-gradient(135deg,#1a2744,#243656,#1a2744);}
+  .ci{text-align:center;padding:36px;position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ci::before{content:'';position:absolute;top:22px;right:22px;bottom:22px;left:22px;border:1px solid rgba(255,255,255,0.1);border-radius:2px;}
+  .ci .cs{font-family:'Cormorant Garamond',serif;font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:18px;}
+  .ci .cl{width:36px;height:1px;margin:0 auto 18px auto;}
+  .ci .ct{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;line-height:1.5;letter-spacing:0.04em;margin-bottom:18px;}
+  .ci .ca{font-family:'Cormorant Garamond',serif;font-size:0.68rem;letter-spacing:0.25em;}
+  .ci .cd{font-family:'Cormorant Garamond',serif;font-size:0.56rem;letter-spacing:0.2em;margin-top:6px;}
+  .t1 .cs,.t1 .ca{color:rgba(139,180,247,0.5);}.t1 .ct{color:#8BB4F7;}.t1 .cl{background:rgba(91,141,239,0.2);}.t1 .cd{color:rgba(139,180,247,0.25);}
+  .t2 .cs,.t2 .ca{color:rgba(212,185,106,0.5);}.t2 .ct{color:#D4B96A;}.t2 .cl{background:rgba(212,185,106,0.2);}.t2 .cd{color:rgba(212,185,106,0.25);}
+
+  /* ═══ TYPOGRAPHY ═══ */
+  .rp h2{font-family:'Noto Serif KR',serif;font-size:0.9rem;font-weight:600;color:var(--text-dark);margin-bottom:8px;line-height:1.5;}
+  .rp h3{font-family:'Noto Serif KR',serif;font-size:0.82rem;font-weight:500;color:var(--accent-gold);letter-spacing:0.04em;margin-bottom:7px;margin-top:2px;}
+  .rp p{font-size:0.78rem;font-weight:300;color:var(--text-body);line-height:1.85;margin-bottom:7px;text-align:justify;word-break:keep-all;}
+  .rp .lbl{font-family:'Cormorant Garamond',serif;font-size:0.58rem;color:var(--accent-gold);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:5px;}
+  .rp .dl{width:30px;height:1px;background:var(--accent-gold);margin:7px 0 10px 0;opacity:0.5;}
+  .rp .dl.c{margin:7px auto 10px auto;}
+  .rp .pn{font-family:'Cormorant Garamond',serif;font-size:0.58rem;color:rgba(100,90,75,0.3);text-align:center;margin-top:auto;padding-top:5px;}
+  .rp .qt{font-style:italic;font-size:0.78rem;color:var(--text-body);line-height:1.85;padding-left:12px;border-left:2px solid rgba(184,150,62,0.3);margin-bottom:7px;}
+  .rp .hl{color:var(--text-dark);font-weight:500;}
+  .rp .kw{font-family:'Noto Serif KR',serif;font-size:0.82rem;font-weight:600;color:var(--accent-gold);line-height:1.75;padding:7px 11px;background:rgba(184,150,62,0.04);border-radius:4px;border-left:2px solid var(--accent-gold);margin:5px 0 8px 0;}
+  .rp .sl{font-size:0.6rem;color:rgba(100,90,75,0.4);font-weight:300;}
+  .rp .fin{font-family:'Cormorant Garamond',serif;font-size:0.64rem;color:var(--accent-gold);opacity:0.5;text-align:center;margin-top:auto;}
+
+  .nav-hint{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:12px;}
+  .nav-hint span{font-family:'Cormorant Garamond',serif;font-size:0.72rem;color:rgba(200,180,140,0.3);letter-spacing:0.1em;}
+  .nav-arrow{background:none;border:1px solid rgba(200,180,140,0.2);color:rgba(200,180,140,0.4);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+  .nav-arrow:hover{border-color:rgba(200,180,140,0.5);color:rgba(200,180,140,0.7);background:rgba(200,180,140,0.05);}
+  .nav-arrow:disabled{opacity:0.2;cursor:default;}
+
+  @media(max-width:1024px){.book-spread{width:96vw;height:72vh;}.reader-header{width:96vw;}}
+  @media(max-width:700px){
+    .book-left{display:none;}
+    .book-right{width:100%!important;border-radius:6px;}
+    .book-spread{width:96vw;height:82vh;max-height:none;}
+    .reader-header{width:96vw;margin-bottom:8px;}
+    .reader-back{font-size:0.78rem;padding:6px 0;}
+    .reader-page-info{font-size:0.72rem;}
+    .rp{padding:32px 28px 28px 28px;}
+    .rp h2{font-size:0.88rem;margin-bottom:10px;}
+    .rp h3{font-size:0.78rem;margin-bottom:9px;}
+    .rp p{font-size:0.78rem;line-height:1.9;margin-bottom:9px;}
+    .rp .lbl{font-size:0.64rem;}
+    .rp .qt{font-size:0.76rem;line-height:1.9;}
+    .rp .kw{font-size:0.78rem;padding:9px 13px;}
+    .rp .pn{font-size:0.62rem;}
+    .rp .fin{font-size:0.7rem;}
+    .ci .ct{font-size:1.15rem;}
+    .ci .cs,.ci .ca{font-size:0.64rem;}
+    .ci .cd{font-size:0.54rem;}
+    .nav-hint span{font-size:0.66rem;}
+    .nav-hint-text{display:none;}
+    .nav-arrow{width:40px;height:40px;font-size:1.1rem;}
+    .shelf-unit{max-width:95vw;}
+    .shelf-row{padding:0 20px;gap:8px;height:200px;}
+    .site-title{font-size:0.95rem;margin-bottom:36px;}
+    .site-title span{font-size:0.6rem;}
+    .shelf-footnote{font-size:0.64rem;margin-top:36px;}
+    .book-spine{transform-origin:bottom center;}
+    .book-spine:hover{transform:none;}
+    .spine-title{font-size:0.7rem;}
+    .spine-year{font-size:0.58rem;}
+    .book-1{width:42px;height:155px;}.book-2{width:44px;height:160px;}
+    .bp1{width:34px;height:150px;}.bp2{width:38px;height:142px;}.bp3{width:32px;height:154px;}.bp4{width:40px;height:140px;}.bp5{width:33px;height:148px;}
+    .shelf-board{height:14px;}
+    .shelf-bracket{display:none;}
+
+    /* 모바일 챕터 네비 토글 */
+    .mobile-ch-toggle{display:flex;}
+    .mobile-ch-panel{display:none;position:absolute;bottom:0;left:0;right:0;background:var(--page-aged);border-radius:6px 6px 0 0;padding:24px 24px 20px;box-shadow:0 -4px 20px rgba(0,0,0,0.3);z-index:50;max-height:60vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.3s ease;}
+    .mobile-ch-panel.open{display:block;transform:translateY(0);}
+    .mobile-ch-panel .ch-nav{list-style:none;display:flex;flex-direction:column;gap:2px;}
+    .mobile-ch-panel .ch-nav li{font-size:0.72rem;padding:8px 12px;border-radius:4px;cursor:pointer;color:rgba(60,50,40,0.4);border-left:2px solid transparent;line-height:1.5;}
+    .mobile-ch-panel .ch-nav li.active{color:var(--text-dark);font-weight:500;border-left-color:var(--accent-gold);background:rgba(184,150,62,0.06);}
+    .mobile-ch-panel .ch-nav li .cn{font-family:'Cormorant Garamond',serif;font-size:0.58rem;color:var(--accent-gold);letter-spacing:0.12em;display:block;margin-bottom:1px;opacity:0.6;}
+    .mobile-ch-panel .mp-title{font-family:'Cormorant Garamond',serif;font-size:0.62rem;letter-spacing:0.2em;color:rgba(100,90,75,0.4);text-transform:uppercase;margin-bottom:14px;text-align:center;}
+    .mobile-ch-panel .mp-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.2rem;color:rgba(100,90,75,0.4);cursor:pointer;}
+  }
+  @media(min-width:701px){.mobile-ch-toggle{display:none !important;}.mobile-ch-panel{display:none !important;}}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  .shelf-unit{animation:fadeInUp 1s ease 0.3s both;}.site-title{animation:fadeInUp 1s ease 0.1s both;}.shelf-footnote{animation:fadeInUp 1s ease 0.5s both;}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}}
+</style>
+</head>
+<body>
+<div id="bookshelf-scene">
+  <div class="site-title">JK's Library<span>Monthly Essays</span></div>
+  <div class="shelf-unit"><div class="shelf-row">
+    <div class="shelf-bracket left"></div><div class="shelf-bracket right"></div>
+    <div class="book-placeholder bp3" style="height:162px;opacity:.12"></div>
+    <div class="book-spine book-1" onclick="openBook('my-new-os')" title="My New OS — 2026.02"><div class="spine-decoration" style="background:#5B8DEF"></div><div class="spine-title" style="color:#8BB4F7">My New OS</div><div class="spine-year" style="color:#8BB4F7">2026</div><div class="spine-decoration" style="background:#5B8DEF"></div></div>
+    <div class="book-spine book-2" onclick="openBook('gentle-singularity')" title="My Gentle Singularity — 2026.03"><div class="spine-decoration" style="background:#D4B96A"></div><div class="spine-title" style="color:#D4B96A">My Gentle Singularity</div><div class="spine-year" style="color:#D4B96A">2026</div><div class="spine-decoration" style="background:#D4B96A"></div></div>
+    <div class="book-placeholder bp1" style="height:155px;opacity:.1"></div>
+    <div class="book-placeholder bp4" style="height:164px;opacity:.08"></div>
+    <div class="book-placeholder bp2" style="height:158px;opacity:.06"></div>
+    <div class="book-placeholder bp5" style="height:168px;opacity:.04"></div>
+    <div class="shelf-board"></div>
+  </div></div>
+  <div class="shelf-footnote">one essay, every month</div>
+</div>
+
+<div id="book-reader">
+  <div class="reader-header"><button class="reader-back" onclick="closeBook()">&#8592; Back to shelf</button><div class="reader-page-info" id="page-info"></div></div>
+  <div class="book-spread"><div class="book-left" id="book-left"></div><div class="book-right" id="book-right" onclick="handleRightClick(event)"><div class="spine-shadow"></div></div></div>
+  <div class="nav-hint"><button class="nav-arrow" id="nav-prev" onclick="goPrev()">&#8249;</button><button class="mobile-ch-toggle" id="mobile-ch-btn" onclick="toggleMobileChPanel()" style="background:none;border:1px solid rgba(200,180,140,0.2);color:rgba(200,180,140,0.4);height:36px;padding:0 14px;border-radius:18px;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:0.66rem;letter-spacing:0.1em;transition:all 0.3s;">Chapters</button><span class="nav-hint-text">arrow keys to navigate</span><button class="nav-arrow" id="nav-next" onclick="goNext()">&#8250;</button></div>
+  <div class="mobile-ch-panel" id="mobile-ch-panel"><button class="mp-close" onclick="closeMobileChPanel()">&#10005;</button><div class="mp-title">Chapters</div><ul class="ch-nav" id="mobile-ch-nav"></ul></div>
+</div>
+
+<script>
+const books={
+'my-new-os':{title:'My New OS',date:'February 2026',theme:'t1',coverTitle:'My New<br>OS',coverSub:'Essay No. 1',
+chapters:[
+{label:'Intro',title:'OS(Operating System)',startPage:1},
+{label:'Chapter 1',title:'My Digital OS: AI Native',startPage:2,sections:['기본값이 바뀌었다','−Native']},
+{label:'Chapter 2',title:'My Analog OS: 나의 여덟 단어',startPage:4,sections:['계획 대신 단어','나아감의 자유, 머무름의 향유']},
+{label:'Chapter 3',title:'둘 사이를 자유로이 유영하는 삶',startPage:6,sections:['AI라는 거울','중력과 부력 사이']}
+],
+pages:[
+{ch:0,sec:'',html:`<div class="lbl">Intro</div><h2>OS(Operating System)</h2><div class="dl"></div><p><span class="hl">운영체제.</span></p><p>컴퓨터나 스마트폰 같은 기기에서 어떤 프로그램이든 작동하기 위해 가장 먼저 깔리는, 보이지 않는 토대.</p><p>세상은 하루가 다르게 바뀌는데, 내 삶은 좀처럼 달라지지 않았다. 바꿔야 할 건 다름 아닌, <span class="hl">나라는 인간의 모든 요소들이 제대로 돌아가기 위한 밑바탕</span>, OS였다.</p><p>2026년의 첫날, 다짐 대신 포맷을 택했다. 그리고 그 비워진 자리에 OS를 새로 깔기 시작했다. 하나는 PC에, 하나는 내 안에.</p><p>이 글은 그 둘 사이를 오가며, 때로는 허우적대고 때로는 가볍게 유영하는 나의 시행착오에 관한 기록이다.</p>`},
+{ch:1,sec:'기본값이 바뀌었다',html:`<div class="lbl">Chapter 1</div><h2>My Digital OS: AI Native</h2><div class="dl"></div><h3>기본값이 바뀌었다</h3><p>2022년 말, ChatGPT의 등장으로 온 세상이 들썩였다. 나 역시 꽤 많은 유료 서비스를 구독하고 새 기능을 탐닉했지만, 도구가 화려해졌다고 내 삶의 관성까지 단번에 사라지는 건 아니었다.</p><p>올해 2월, Claude Code는 그 벽을 산산이 깨부쉈다. 검은 터미널 화면, 깜빡이는 커서. 복잡한 프로그래밍 언어 대신 익숙한 한국어로 말을 건넸을 뿐인데, AI가 내 폴더를 직접 열어 파일을 읽고, 고치고, 새로 만들기 시작했다. 내 프로젝트의 맥락을 이해한 뒤, 먼저 구조를 제안했다. 마치 눈빛만 봐도 통하는 다재다능한 동료가 생긴 것만 같았다.</p><p>그 순간 느꼈다. 객석에 앉아 거대한 시대의 파도를 구경하며 박수만 치던 내 앞에, 작지만 나만의 새로운 무대가 펼쳐졌다는 것을.</p><p>그날 이후, 내 작업 풍경은 완전히 바뀌었다. 노트북을 열면 브라우저 대신 검은 화면이 나를 맞는다. 나라는 사용자가 누군지, 어떤 방식을 선호하는지, 어제 어디까지 작업했는지 이미 알고 있는 상태로.</p><p>심지어 예전에 '전문가의 영역'이라 생각했던 일들, 이를테면 웹페이지 하나를 새로 짓는 일조차 서너 번의 대화로 가능해졌다. 몇 분 만에 생각이 구조를 갖추고, 눈앞에서 결과물로 렌더링되는 과정을 지켜보고 있으면 현실감각이 잠시 흔들릴 정도다.</p><p>예전에는 "이 작업에도 AI를 써볼까?"를 고민했다면, 지금은 반대다. <span class="hl">"이건 정말 내가 직접 해야 하는 일인가?"를 먼저 묻는다. 디폴트가 뒤집혔다.</span></p><p>AI는 어느새 '의식해서 쓰는 도구'가 아니라, 자연스럽게 손이 먼저 가는 나의 새 OS가 되어가는 중이다.</p>`},
+{ch:1,sec:'−Native',html:`<h3>−Native</h3><div class="dl"></div><p>요즘 여기저기서 AI-Native라는 말을 듣는다. 누군가는 AI로 설계된 제품을, 누군가는 AI 없는 세상을 모르는 세대를, 누군가는 AI가 기본 체질이 된 조직을 가리킨다.</p><p>이 단어의 뿌리는 라틴어 nātīvus. '태어날 때부터 그 맥락 안에 뿌리 내린 존재'라는 의미다. 우리가 모국어를 'native language'라고 부르는 이유도 의식하지 않아도 그 언어로 세상을 감각하고 사고하기 때문이다.</p><p>AI-Native도 마찬가지다. 그것은 AI를 얼마나 잘 쓰냐는 스킬의 문제가 아니다. <span class="hl">AI가 모든 실행의 출발점이자 기본값이 되어, 실행의 마찰을 거의 0에 가깝게 만드는 상태다.</span></p><p>덕분에 시도의 비용은 낮아졌고, 실패는 깃털처럼 가벼워졌다. 과거라면 며칠이 걸렸을 시행착오의 루프를 하루에도 수십 번씩 돌릴 수 있게 된 것이다.</p><p>어제의 결과물이 오늘의 질문이 되고, 오늘의 시도가 내일의 기울기를 바꾸는 것. <span class="hl">이 압축된 성장을 타고 러닝 커브가 지수함수를 그리며 치솟기 시작하는 것.</span> 이것이야말로 AI-Native의 참 묘미가 아닐까.</p><p>실행과 속도는 AI에게 맡기면 된다. 그러나 <span class="hl">그 나선이 어디를 향해 나아갈지 정하는 일은 여전히 나의 몫이다. 그리고 나는 그 방향을 화면 밖 세상에서 찾아냈다.</span></p>`},
+{ch:2,sec:'계획 대신 단어',html:`<div class="lbl">Chapter 2</div><h2>My Analog OS: 나의 여덟 단어</h2><div class="dl"></div><h3>계획 대신 단어</h3><p>시간을 조금 되감아, 2025년 말.</p><p>순도 99.9%의 파워 J인 나는, 생애 처음으로 아무런 연말 계획도, 새해 목표도 세우지 않은 채 해를 넘겼다. 아무리 촘촘하게 계획을 짠들, 그것을 실행하는 내 삶의 양식이 변하지 않는 한 아무 것도 달라지지 않는다는 것을 잘 알기 때문이다.</p><p>그래서 올해는 목표 대신, 나만의 단어들을 고르기로 했다. 어떤 가치를 품고 살 것인가, 나라는 인간의 OS를 무엇으로 구동시킬 것인가. 그 질문을 품고 서성이다 보니, 여덟 개의 단어가 나를 찾아왔다.</p><div class="kw">자유, 사유, 온유, 향유, 여유.<br>그리고 가꾸다, 나누다, 다루다.</div><p>소리의 결을 맞추는 것은 나의 오래된 소소한 유희다. 앞의 다섯 단어는 모두 '유'라는 운(韻)을 공유하지만, 저마다 다른 한자를 품고 있다. 自由, 思惟, 溫柔, 享有, 餘裕. 같은 울림 안에 다른 결이 포개지는 말맛이 퍽 마음에 들었다.</p><p>뒤의 세 단어는 모음 'ㅏㅜㅏ'의 리듬을 따르되, 첫 자음이 ㄱ, ㄴ, ㄷ 순서를 밟는다. 우리말의 기초인 가나다처럼, 내 실천의 기초가 되길 바라는 마음을 담았다.</p><p>이 단어들은 이제 나의 나침반이 되었다. 앞의 다섯이 내 존재가 딛고 선 뿌리라면, 뒤의 셋은 세상을 향해 뻗어 나가는 실천의 가지다. 각각을 나만의 언어로 다시 정의하고, 매일 마주치는 풍경 속에서 이 단어들에 닿는 장면과 문장을 차곡차곡 채집하며 계속 업데이트해 나가는 중이다.</p><p><span class="hl">목표는 달성하는 순간 사라지지만, 단어는 매일의 선택 속에서 새 잎을 틔운다.</span> 나의 2026년은 그렇게, 속도가 아닌 스스로 세운 질서 위에서 시작되었다.</p>`},
+{ch:2,sec:'나아감의 자유, 머무름의 향유',html:`<h3>나아감의 자유, 머무름의 향유</h3><div class="dl"></div><p>이달의 단어는 '자유'와 '향유'다.</p><p>나에게 자유란 다섯 뿌리 중에서도 가장 바탕이 되는 '주근(主根)'이다. 타고난 본성에서 솟아나는 대로, 그때그때 피어나는 욕망대로 살겠다는 선언이지만, 결코 거창하지 않다. 아침에 눈을 떴을 때 오늘 하고 싶은 일이 있고, 그 일을 할 수 있고, 하는 동안 내가 나답다고 느끼는 것. 그것이 내게는 자유다.</p><p>나의 바람은 삶의 각 영역을 조금씩 '나답게' 설계하고, 그 자유의 영토를 아주 조금씩 넓혀 나가는 것이다. AI를 배우는 것도, 여덟 단어를 다듬는 것도 그 확장의 일부다.</p><p>자유가 나아가는 에너지라면, 향유는 머무름의 에너지다. AI에게 거의 모든 것을 맡길 수 있는 시대에, 이것만은 맡기고 싶지 않다고 조용히 선을 긋는 일이다.</p><p>책장을 넘기다가 불현듯 눈을 붙잡는 구절 앞에서 잠시 호흡을 멈추는 것, 이 생각 저 생각 사이를 느릿하게 오가며 서성이는 것, 다 읽은 뒤에 여운을 음미하며 나만의 언어로 갈무리하는 기쁨. <span class="hl">이 '과정'의 즐거움만큼은 평생 내 손에 남겨두고 싶다.</span></p><p><span class="hl">디지털 OS가 속도를 준다면, 아날로그 OS는 나를 나로 유지시키고 있다.</span></p>`},
+{ch:3,sec:'AI라는 거울',html:`<div class="lbl">Chapter 3</div><h2>둘 사이를 자유로이 유영하는 삶</h2><div class="dl"></div><h3>AI라는 거울</h3><p>Claude Code에 익숙해질수록, 툭툭 튀어나오는 질문들이 있다. "내가 진짜로 원하는 건 뭘까?" "내 삶에서 지금 해결해야 하는 문제는 뭐지?"</p><p>어떤 날은, 그 질문 앞에서 말문이 막힌다. 좋고 싫음이 분명히 느껴지는데도 말로 꺼내지 못할 때. 그때 알게 된다. <span class="hl">이건 AI의 성능 문제가 아니라, 나의 해상도의 문제라는 것을.</span></p><p>AI가 똑똑해질수록 인간에게 요구되는 것은 더 많은 기술이 아니라 <span class="hl">더 깊은 자기 이해</span>가 아닐까. 무엇에 반응하는지 아는 사람에게 AI는 강력한 날개가 되지만, 그 감각이 없는 사람에게 AI는 오히려 길을 더 잘 잃게 만드는 정교한 미로가 될지 모른다.</p>`},
+{ch:3,sec:'중력과 부력 사이',html:`<h3>중력과 부력 사이</h3><div class="dl"></div><p>요즘 나의 하루는 두 개의 시간을 교차하며 흐른다.</p><p>아침에는 '느린 시간'이 흐른다. 창문을 열어 바깥 공기를 들이고, 짧게 산책을 한 뒤, 노트를 연다. 긴 침묵과 여백 속에서 문장을 한 줄씩 적어 내려가다 보면, 여기저기 흩어져 있던 생각이 비로소 내 것이 된다.</p><p>오후가 되면 '지수의 시간'이 시작된다. 터미널을 열고 AI와 대화를 나누며 루프를 돌린다. 아이디어를 구조로 바꾸고, 구조를 실행 계획으로 번역한다.</p><p>AI는 부력을 주지만, 아날로그는 중력을 준다. <span class="hl">부력만 있으면 방향을 잃고 떠내려가고, 중력만 있으면 무거워 한 걸음도 나아가지 못한다.</span></p><p>그래서 나는 매일 두 개의 OS를 동시에 켠다. 하나는 검은 터미널 위에서, 하나는 하얀 종이 위에서.</p><p>여전히 그 사이를 허우적대며 오간다. 때로는 AI의 속도에 멀미를 느끼고, 때로는 아날로그의 느림에 답답해한다. 그럼에도 이 둘 사이 어딘가에, 내가 유영할 자리가 있다고 느낀다.</p><p>도구는 앞으로도 계속 바뀔 것이다. 하지만 공들여 구축한 이 OS들은 꽤 오래 함께할 것 같다.</p><p><span class="hl">"나의 OS는 나를 더 자유롭게 만들고 있는가"<br>이 질문과 함께, OS를 그리고 나를, 계속 업데이트해 가고 싶다.</span></p><div class="dl c"></div><div class="fin">fin.</div>`}
+]},
+
+'gentle-singularity':{title:'My Gentle Singularity',date:'March 2026',theme:'t2',coverTitle:'My Gentle<br>Singularity',coverSub:'Essay No. 2',
+chapters:[
+{label:'Intro',title:'특이점의 문턱',startPage:1},
+{label:'Chapter 1',title:'The Singularity is Nearer',startPage:2,sections:['Near에서 Nearer로','나를 지탱하던 법칙도 무너졌다']},
+{label:'Chapter 2',title:'My Singularity Is Here',startPage:4,sections:['덜어내기, 감각하기','시도하기, 추적하기']},
+{label:'Chapter 3',title:'Beyond the Singularity',startPage:7,sections:['두 개의 속도, 두 개의 눈','아직 쓰이지 않은 문장']}
+],
+pages:[
+{ch:0,sec:'',html:`<div class="lbl">Intro</div><div class="dl"></div><p>특이점(特異點, singularity)이라는 말에는 늘 어떤 문턱의 감각이 따라붙는다.</p><p>물리학에서 그것은 블랙홀의 심장처럼, 우리가 알던 법칙이 끝내 버텨내지 못하고 무너지는 자리다. 수학에서는 매끄럽던 흐름이 한순간에 뒤바뀌는 첨점(cusp)이며, AI 공학에서는 인공지능이 인간의 지능을 넘어서는 기점을 뜻한다.</p><p>무너지는 것, 뒤바뀌는 것, 넘어서는 것. 세 분야의 정의가 가리키는 방향은 다르지만, 공통점은 선명하다. 한 번 그 문턱을 넘고 나면, 결코 이전으로 돌아갈 수 없다는 것.</p><p>돌이켜보면 내 삶에도 그런 지점이 있었다. 그것은 어느 날 조용히, 그러나 되돌릴 수 없는 방식으로 찾아왔다.</p>`},
+{ch:1,sec:'Near에서 Nearer로',html:`<div class="lbl">Chapter 1</div><h2>The Singularity is Nearer</h2><div class="dl"></div><h3>1-1. Near에서 Nearer로</h3><p>2005년 레이 커즈와일의 《특이점이 온다(The Singularity Is Near)》가 출간되었을 때, 나는 그것을 어딘가 먼 미래의 이야기로 읽었다. 2045년이면 인공지능이 인류 지능의 총합을 넘어설 것이고, 인간과 기계의 경계도 흐려질 것이라는 전망. 흥미롭기는 했지만, SF 영화의 설정처럼 느껴졌다. 적어도 내 삶과는 무관한 이야기 같았다.</p><p>그로부터 이십 년이 흘렀다.</p><p>2025년 6월, 샘 알트만은 자신의 블로그에 〈The Gentle Singularity〉라는 글을 올렸다. 우리는 이미 사건의 지평선을 지났고, 이륙은 시작되었다고. 특이점은 세계를 하루아침에 전복하는 폭발이 아니라, 경이로운 것이 일상이 되고, 일상이 다시 당연한 것이 되는 방식으로 조용히 스며들 것이라고.</p><p>비슷한 시기에 커즈와일의 후속작 번역본도 나왔다. 제목이 'Near'에서 'Nearer'로 바뀌어 있었다. 온다던 것은 더 가까워졌고, 더 가까워졌다는 말은 이미 시작되었다는 말이었다.</p><p>이십 년 사이, 특이점의 시제는 미래형에서 현재진행형으로 옮겨가고 있었다.</p>`},
+{ch:1,sec:'나를 지탱하던 법칙도 무너졌다',html:`<h3>1-2. 나를 지탱하던 법칙도 무너졌다</h3><div class="dl"></div><p>세계가 조용히 바뀌는 동안, 나의 문법도 서서히 무너지고 있었다. 가장 인정받던 순간에, 가장 불행했다.</p><p>2024년 7월 초. 퇴사를 결심한 날은 공교롭게도 큰 사건에서 승소한 날이었다. 그 날 내게 필요했던 건 선배가 사주는 비싼 밥도, 수고했다는 격려도 아니었다. 단지 아주 잠깐 눈을 붙일 수 있는 시간뿐이었다.</p><p>한 달째 멈추지 않는 하혈 때문에 가만히 앉아만 있어도 숨이 찼다. 이러다 또 응급실에 실려가 수혈을 받겠구나 싶었다. 아니나 다를까, 만찬을 마치고 돌아오는 길에 바닥에 주저앉고 말았다. 혼자서는 도저히 일어설 수 없어 남편에게 전화를 걸었다. 그러자 좀처럼 감정을 드러내지 않는 사람에게서, 울음 섞인 한마디가 튀어나왔다.</p><p class="qt">"요즘 수화기에 네 이름만 뜨면 가슴이 철렁 내려앉아."</p><p>그 말에 비로소 멈출 수 있었다. 내가 옳다고 믿는 방식으로 일하는 데 온마음을 쏟는 동안, 소중한 사람의 마음이 무너져내리고 있었다.</p><p>망설임 없이 다음 날 바로 퇴사 의사를 밝혔다. 다만 후회 없는 마침표를 찍기 위해, 메인으로 맡고 있던 사건들은 끝까지 마무리짓고 나가겠다고 했다. 사건이 언제 끝날지 알 수 없었고, 그동안 수입이 0이 될 수도 있었지만, 이상하게도 마음만은 가벼웠다.</p><p>돌아보면 오랜 시간 '마땅히 그래야 한다'는 당위(當爲)의 문법으로 살아왔다. 그 원칙이 나를 성장시켰고, '같이 일하고 싶은 사람'이라는 평판도 안겨주었다. 하지만 그것을 지키느라, 내 PC선을 끊어버리겠다는 동료들의 농담섞인 걱정도, 여기저기서 울리는 몸의 경고도 무시했다. 나를 세워준 것이 끝내 나를 무너뜨리고 있었다.</p><p>그로부터 반년 뒤인 2025년 1월, 마지막 사건의 전부 승소 확정까지 확인한 뒤 회사를 떠났다. 9년 동안 나를 설명해주던 문장이 그렇게 조용히 끝이 났다.</p>`},
+{ch:2,sec:'덜어내기, 감각하기',html:`<div class="lbl">Chapter 2</div><h2>My Singularity Is Here</h2><div class="dl"></div><h3>2-1. 2025년 나를 뒤바꿔놓은 배움 <span class="sl">— 덜어내기, 감각하기</span></h3><p>퇴사 후 가장 먼저 한 일은 무언가를 더하는 것이 아닌, 나를 고갈시키던 것들을 덜어내는 일이었다. 그 시작에는 아유르베다(Ayurveda)가 있었다.</p><p>그중에서도 내게 가장 오래 남은 것은 'Nidana Parivarjana', '원인 제거'라는 말이었다. 방전된 내게 필요한 것은 새로운 목표도, 더 나은 계획도 아니었다. 스트레스를 핑계로 밀어넣던 간식과 야식을 멈추고, 충분히 자기 위해 아침 알람을 지웠다. 그렇게 나를 소진시키던 것들을 하나둘씩 덜어내자, 비로소 소중한 것들로 삶을 채울 수 있는 자리가 생겨났다.</p><p>1년간 배운 마크로비오틱(Macrobiotic) 요리는 그 빈 자리를 손끝에서부터 다시 채우는 시간이었다. 제철 채소를 다듬을 때 손에 전해지는 단단함, 칼이 지나간 단면에서 올라오는 향긋한 냄새, 조리대 위로 번지는 미세한 소리들. 오래 잊고 있던 감각들이 나를 지금 이 순간으로 데려왔다.</p><p>내게 깊이 남은 것은 음양조화, 곧 '균형'의 감각이었다. 그것은 어딘가에 고정된 정답 같은 상태가 아니었다. 컨디션이 좋지 않은 날은 평소의 절반만 걷고, 약속이 많은 주에는 주말만큼은 혼자만의 시간을 남겨두는 것. 예전에는 기준을 먼저 세우고 나를 거기에 맞추려 했다면, 이제는 먼저 내 상태를 살피고 그에 맞는 나만의 리듬을 찾아간다.</p><p>어쩌면 내게 부족했던 것은 더 강한 의지가 아니라, 몸과 마음이 보내는 신호를 알아차리는 감각이었는지도 모른다.</p>`},
+{ch:2,sec:'시도하기, 추적하기',html:`<h3>2-2. 2026년 매일 한계를 넘어서는 즐거움 <span class="sl">— 시도하기, 추적하기</span></h3><div class="dl"></div><p>몸의 감각이 조금씩 돌아오자, 비로소 바깥의 변화도 새롭게 보이기 시작했다.</p><p>모바일 시대를 그저 관망하는 사람으로 지나오며, 뒤늦게 깨달은 게 하나 있다. 큰 변화는 모두가 알아볼 만큼 커진 뒤에 보이는 것이 아니라, 아직은 이름조차 붙이기 어려운 미세한 움직임 속에서 먼저 시작된다는 것을. 이번에는 그 신호를 놓치고 싶지 않았다. 온라인에서 소비되는 담론이 아니라, 오프라인의 공기가 궁금했다.</p><p>2026년 3월 한 달 동안, AX에 진심인 사람들과 조직을 만나보며 실감한 것이 있다. 그들은 기존의 일하는 방식에 AI를 끼워 넣는 것이 아니었다. AI와 사람이 함께 일한다는 전제 하에서 일의 흐름 자체를 처음부터 다시 짜고 있었다. 질문도 '어디를 자동화할까'가 아니라 '처음부터 어떻게 다르게 일할까'로 바뀌고 있었다. 불과 일주일 전까지 클로드 코드 설치조차 어려워하던 사람이, 일주일 만에 조직의 일하는 방식을 바꿔가는 장면도 목격했다. 지금 벌어지는 변화는 단순한 생산성 향상이 아니라, 일의 문법 자체가 달라지는 종류의 것이었다.</p><p>그 장면들을 보며 내 안의 오래된 의심도 조금씩 힘을 잃어갔다. 비개발자인 내가 과연 할 수 있을까. 클로드 코드를 처음 터미널에 설치했을 때 가장 먼저 밀려온 것도 그 의심이었다. 그런데 막상 써보니, 내게 필요한 건 더 많은 지식과 정보가 아니었다. 무엇을 만들지 정하고, 어떤 순서로 접근할지 설계하고, 나온 결과를 보며 방향을 다시 잡는 일이었다.</p><p>AI가 실행을 맡을수록 사람의 역할은 줄어들 것이라 생각했지만, 오히려 반대였다. 구현을 맡길 수 있게 되자, 무엇을 만들 것인가를 묻는 일이 더 중요해졌다. AI를 쓸수록 나의 한계뿐만 아니라 AI의 한계, 그리고 끝내 내 몫으로 남는 것이 더 또렷해졌다. 내 취향과 판단 기준도 점차 윤곽을 갖기 시작했다. 내가 달라지면 AI의 응답도 달라지고, AI의 응답이 달라지면 내 질문도 달라졌다.</p>`},
+{ch:2,sec:'시도하기, 추적하기',html:`<p>요즘 나의 새로운 재미는 매일 각 분야에서 먼저 움직이는 사람들을 유심히 추적하는 일이다. 누가 더 크게 말하느냐보다, 누가 먼저 조용히 직접 해보고 있느냐를 본다. 지금 내게 필요한 것은 더 많은 정보가 아니라, 더 믿을 만한 신호(signal)다.</p><p>다음 달에는 키보드 대신 목소리로 코딩을 해보려 한다. 산책하면서도, 이동하면서도, 내 맥락을 실시간으로 AI에 건네는 방식으로. 기왕 넘어야 할 문턱이라면 기꺼이, 그리고 즐겁게 넘어가보자.</p>`},
+{ch:3,sec:'두 개의 속도, 두 개의 눈',html:`<div class="lbl">Chapter 3</div><h2>Beyond the Singularity</h2><div class="dl"></div><h3>3-1. 두 개의 속도, 두 개의 눈</h3><p>붉은 여왕은 앨리스에게 말한다.</p><p class="qt">"여기서는 같은 곳에 있으려면 쉬지 않고 달려야 해."</p><p>처음 그 문장을 읽었을 때는 정체는 곧 퇴보라는, 채찍질 정도로 이해했다. 지금은 다르게 읽힌다. 같은 속도로 달려야만 볼 수 있는 장면이 있다는 뜻으로.</p><p>멀리서 감탄하는 것만으로는 닿을 수 없는 디테일이 있다. 그래서 요즘 매일 추적하고, 직접 시도하며, 상대속도를 0으로 만들기 위해 노력 중이다.</p><p>하지만 무작정 달리기만 해서는 보이지 않는 것도 있다. 속도를 맞추어 달리는 동안에는 바로 옆의 결이 보인다. 하지만 내가 어디를 향해 달리고 있는지, 이 길이 어디로 이어지는지는 멈추어 서야만 보인다. 때로는 한 발 물러나 전체를 부감해야 비로소 잡히는 흐름이 있다. 디테일과 큰 그림. 두 가지를 동시에 붙드는 일은 어렵지만, 두 시선 사이를 오가는 일은 충분히 가능하지 않을까.</p><p>그래서 요즘 더욱 의식적으로 매일 두 개의 OS를 오가려 한다. 하나는 디지털 OS. AI와 동기화하고, 추적하고, 시도하고, 매일 새롭게 배우는 쪽의 나. 다른 하나는 아날로그 OS. 노트를 펼쳐 손으로 쓰고, 산책하며 생각을 정리하고, 문장을 천천히 다듬는 쪽의 나.</p><p>빠르게 달리는 시간과 느리게 서 있는 시간이 서로를 무너뜨리지 않고 오히려 보완할 수 있다는 것을 두 리듬 사이를 오가며 조금씩 배워가는 중이다.</p>`},
+{ch:3,sec:'아직 쓰이지 않은 문장',html:`<h3>3-2. 아직 쓰이지 않은 문장</h3><div class="dl"></div><p>삶의 특이점은 드라마틱한 사건이 아니었다. 예전의 원칙으로 나를 지킬 수 없게 되는 순간. 타인의 기대를 중심에 두고서는 살아낼 수 없게 되는 순간. 나를 잃는 방식으로는 누구도 제대로 사랑할 수 없게 되는 순간. 결국 이전의 나로는 이후의 나를 더는 설명할 수 없게 되는 순간이었다.</p><p>2025년 1월, 9년 동안 나를 설명해주던 문장이 막을 내렸다. 그 뒤로 일 년 남짓한 시간 동안 덜어내고, 감각하고, 추적하고, 시도했다. 그 과정에서 알게 된 것이 하나 있다. 새로운 문장은 이전의 문장이 끝난 자리에서 저절로 시작되는 것이 아니라는 것. 오늘의 상태를 살피고, 지금 내게 필요한 질문을 찾고, 그 질문이 데려가는 곳을 따라가며, 때로는 헤매며 찾아나서야 한다.</p><p>커즈와일은 Near에서 Nearer로 제목을 바꾸어 돌아왔다. 알트만은 특이점이 이미 시작되었다고 썼다. 세계의 시제가 미래형에서 현재진행형으로 바뀌는 동안, 나의 시제도 바뀌고 있다. '어떤 사람이 되어야 한다'에서 '어떤 사람이 되어가고 있다'로.</p><p>어쩌면 특이점의 본질은 그 너머를 미리 알 수 없다는 데 있는지도 모른다. 그렇다면 지금 내게 필요한 것은 완성된 답을 서둘러 확정하는 일이 아니다. 변해가는 감각과 질문을 놓지 않은 채, 그 이후의 문장을 하루하루 써가는 일이 아닐까.</p><div class="dl c"></div><div class="fin">fin.</div>`}
+]}
+};
+
+let curBook=null,curBookId=null,curPage=0,totalPages=0;
+function openBook(id,noPush){curBook=books[id];curBookId=id;curPage=0;buildPages();document.getElementById('bookshelf-scene').classList.add('hidden');document.getElementById('book-reader').classList.add('active');if(!noPush)history.pushState({book:id,page:0},'','#'+id);}
+function closeBook(noPush){if(!curBook)return;document.getElementById('book-reader').classList.remove('active');setTimeout(()=>document.getElementById('bookshelf-scene').classList.remove('hidden'),300);curBook=null;curBookId=null;if(!noPush)history.pushState({},'',location.pathname);}
+function buildPages(){
+  const r=document.getElementById('book-right');
+  r.querySelectorAll('.rp').forEach(p=>p.remove());
+  const cv=document.createElement('div');
+  cv.className=`rp cover-pg ${curBook.theme}`;cv.dataset.idx='0';
+  cv.innerHTML=`<div class="ci"><div class="cs">${curBook.coverSub}</div><div class="cl"></div><div class="ct">${curBook.coverTitle}</div><div class="cl"></div><div class="ca">JK</div><div class="cd">${curBook.date}</div></div>`;
+  r.appendChild(cv);
+  curBook.pages.forEach((pg,i)=>{const el=document.createElement('div');el.className='rp';el.dataset.idx=String(i+1);el.dataset.ch=String(pg.ch);el.dataset.sec=pg.sec||'';el.innerHTML=pg.html+`<div class="pn">${i+1}</div>`;r.appendChild(el);});
+  autoPaginate(r);totalPages=r.querySelectorAll('.rp').length;curPage=0;showPage(0);
+}
+function autoPaginate(container){
+  var didSplit=true;
+  while(didSplit){
+    didSplit=false;
+    var pages=Array.from(container.querySelectorAll('.rp:not(.cover-pg)'));
+    for(var j=0;j<pages.length;j++){
+      var page=pages[j];
+      if(page.scrollHeight<=page.clientHeight+2)continue;
+      var children=Array.from(page.children);
+      var content=children.filter(function(el){return !el.classList.contains('pn');});
+      var padBottom=parseFloat(getComputedStyle(page).paddingBottom);
+      var maxBottom=page.clientHeight-padBottom-24;
+      var splitAt=content.length;
+      for(var i=0;i<content.length;i++){
+        if(content[i].offsetTop+content[i].offsetHeight>maxBottom){splitAt=Math.max(1,i);break;}
+      }
+      if(splitAt>=content.length)continue;
+      var newPage=document.createElement('div');
+      newPage.className='rp';newPage.dataset.ch=page.dataset.ch;newPage.dataset.sec=page.dataset.sec;
+      for(var i=content.length-1;i>=splitAt;i--)newPage.insertBefore(content[i],newPage.firstChild);
+      var pn=document.createElement('div');pn.className='pn';newPage.appendChild(pn);
+      page.after(newPage);didSplit=true;break;
+    }
+  }
+  var allPages=container.querySelectorAll('.rp');
+  for(var i=0;i<allPages.length;i++){
+    allPages[i].dataset.idx=String(i);
+    var pn=allPages[i].querySelector('.pn');
+    if(pn)pn.textContent=i>0?String(i):'';
+  }
+}
+function showPage(idx){
+  document.querySelectorAll('#book-right .rp').forEach(p=>{const i=parseInt(p.dataset.idx);p.classList.remove('active','exit');if(i===idx){p.classList.add('active');p.scrollTop=0;}else if(i<idx)p.classList.add('exit');});
+  curPage=idx;updateLeft();updateInfo();updateNav();
+  if(curBookId){var h=idx===0?'#'+curBookId:'#'+curBookId+'/p'+idx;history.replaceState({book:curBookId,page:idx},'',h);}
+}
+function updateLeft(){
+  const l=document.getElementById('book-left');
+  if(curPage===0){
+    l.className='book-left cover-mode';
+    let h='<div class="cl-content"><div class="toc-t">Contents</div>';
+    curBook.chapters.forEach((c,i)=>{if(i>0)h+='<div class="toc-ln"></div>';h+=`<div class="toc-ch">${c.label}</div><div class="toc-it">${c.title}</div>`;if(c.sections)c.sections.forEach(s=>h+=`<div class="toc-it sub">${s}</div>`);});
+    h+='</div>';l.innerHTML=h;
+  }else{
+    l.className='book-left';
+    const ap=document.querySelector('#book-right .rp[data-idx="'+curPage+'"]'),chIdx=parseInt(ap.dataset.ch),sec=ap.dataset.sec||'',ch=curBook.chapters[chIdx];
+    let h=`<div class="cur-label">${ch.label}</div><div class="cur-title">${ch.title}</div><div class="cur-sec">${sec}</div><ul class="ch-nav">`;
+    curBook.chapters.forEach((c,i)=>{h+=`<li class="${i===chIdx?'active':''}" onclick="goToChapter(${i})"><span class="cn">${c.label}</span>${c.title}</li>`;});
+    h+=`</ul><div class="bm"><div class="bm-t">${curBook.title}</div><div class="bm-d">${curBook.date}</div></div>`;
+    l.innerHTML=h;
+  }
+}
+function goToChapter(ci){var ps=document.querySelectorAll('#book-right .rp[data-ch]');for(var i=0;i<ps.length;i++){if(parseInt(ps[i].dataset.ch)===ci){showPage(parseInt(ps[i].dataset.idx));return;}}}
+function goNext(){if(curPage<totalPages-1)showPage(curPage+1);}
+function goPrev(){if(curPage>0)showPage(curPage-1);}
+function updateInfo(){document.getElementById('page-info').textContent=curPage===0?'Cover':`${curPage} / ${totalPages-1}`;}
+function updateNav(){document.getElementById('nav-prev').disabled=(curPage<=0);document.getElementById('nav-next').disabled=(curPage>=totalPages-1);}
+function handleRightClick(e){const rect=document.getElementById('book-right').getBoundingClientRect();const x=e.clientX-rect.left;if(x<rect.width/2)goPrev();else goNext();}
+document.addEventListener('keydown',e=>{if(!document.getElementById('book-reader').classList.contains('active'))return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goNext();}if(e.key==='ArrowLeft'){e.preventDefault();goPrev();}if(e.key==='Escape')closeBook();});
+
+/* ═══ TOUCH SWIPE ═══ */
+let touchStartX=0,touchStartY=0,touchEndX=0,touchEndY=0;
+const bookRight=document.getElementById('book-right');
+bookRight.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;touchStartY=e.changedTouches[0].screenY;},{passive:true});
+bookRight.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;touchEndY=e.changedTouches[0].screenY;handleSwipe();},{passive:true});
+function handleSwipe(){const dx=touchEndX-touchStartX;const dy=touchEndY-touchStartY;if(Math.abs(dx)<50||Math.abs(dy)>Math.abs(dx)*0.7)return;if(dx<0)goNext();else goPrev();}
+
+/* ═══ MOBILE CHAPTER PANEL ═══ */
+function toggleMobileChPanel(){const p=document.getElementById('mobile-ch-panel');if(p.classList.contains('open'))closeMobileChPanel();else openMobileChPanel();}
+function openMobileChPanel(){
+  const p=document.getElementById('mobile-ch-panel');
+  const nav=document.getElementById('mobile-ch-nav');
+  if(!curBook)return;
+  const ap=curPage>0?document.querySelector('#book-right .rp[data-idx="'+curPage+'"]'):null;
+  const activeCh=ap?parseInt(ap.dataset.ch):0;
+  let h='';
+  curBook.chapters.forEach((c,i)=>{h+=`<li class="${i===activeCh?'active':''}" onclick="goToChapter(${i});closeMobileChPanel();"><span class="cn">${c.label}</span>${c.title}</li>`;});
+  nav.innerHTML=h;
+  p.style.display='block';
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{p.classList.add('open');});});
+}
+function closeMobileChPanel(){const p=document.getElementById('mobile-ch-panel');p.classList.remove('open');setTimeout(()=>{p.style.display='none';},300);}
+
+/* ═══ URL ROUTING ═══ */
+window.addEventListener('popstate',function(e){if(e.state&&e.state.book){if(!curBook||curBookId!==e.state.book)openBook(e.state.book,true);showPage(e.state.page||0);}else if(curBook){closeBook(true);}});
+(function(){var h=location.hash.slice(1);if(h){var parts=h.split('/p');if(books[parts[0]]){openBook(parts[0],true);history.replaceState({book:parts[0],page:0},'',location.hash);if(parts[1]){var pg=parseInt(parts[1]);if(!isNaN(pg))showPage(pg);}}}})();
+</script>
+</body>
+</html>
