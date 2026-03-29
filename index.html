@@ -29,6 +29,8 @@
   #bookshelf-scene{width:100%;height:100%;background:var(--wall-bg);background-image:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(255,200,100,0.06),transparent),repeating-linear-gradient(90deg,transparent,transparent 120px,rgba(0,0,0,0.02) 120px,rgba(0,0,0,0.02) 121px),repeating-linear-gradient(0deg,transparent,transparent 120px,rgba(0,0,0,0.02) 120px,rgba(0,0,0,0.02) 121px);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.6s ease;position:relative;}
   #bookshelf-scene.hidden{opacity:0;pointer-events:none;position:absolute;}
   #bookshelf-scene{overflow:hidden;}
+  #bookshelf-scene::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse 65% 55% at 50% 28%,rgba(255,200,100,0.07),transparent);pointer-events:none;animation:lightBreathe 8s ease-in-out infinite;}
+  @keyframes lightBreathe{0%,100%{opacity:0;}50%{opacity:1;}}
   .particle{position:absolute;border-radius:50%;background:var(--accent-gold);pointer-events:none;will-change:transform,opacity;animation:particleRise linear infinite;}
   @keyframes particleRise{0%{opacity:0;transform:translateY(0);}10%{opacity:var(--p-op);}85%{opacity:var(--p-op);}100%{opacity:0;transform:translateY(-100vh);}}
   .site-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;letter-spacing:0.35em;color:rgba(200,180,140,0.5);text-transform:uppercase;margin-bottom:48px;text-align:center;}
