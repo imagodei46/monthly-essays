@@ -28,6 +28,9 @@
   /* ═══ BOOKSHELF ═══ */
   #bookshelf-scene{width:100%;height:100%;background:var(--wall-bg);background-image:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(255,200,100,0.06),transparent),repeating-linear-gradient(90deg,transparent,transparent 120px,rgba(0,0,0,0.02) 120px,rgba(0,0,0,0.02) 121px),repeating-linear-gradient(0deg,transparent,transparent 120px,rgba(0,0,0,0.02) 120px,rgba(0,0,0,0.02) 121px);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.6s ease;position:relative;}
   #bookshelf-scene.hidden{opacity:0;pointer-events:none;position:absolute;}
+  #bookshelf-scene{overflow:hidden;}
+  .particle{position:absolute;border-radius:50%;background:var(--accent-gold);pointer-events:none;will-change:transform,opacity;animation:particleRise linear infinite;}
+  @keyframes particleRise{0%{opacity:0;transform:translateY(0);}10%{opacity:var(--p-op);}85%{opacity:var(--p-op);}100%{opacity:0;transform:translateY(-100vh);}}
   .site-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;letter-spacing:0.35em;color:rgba(200,180,140,0.5);text-transform:uppercase;margin-bottom:48px;text-align:center;}
   .site-title span{display:block;font-size:0.7rem;letter-spacing:0.5em;margin-top:6px;color:rgba(200,180,140,0.3);}
   .shelf-unit{position:relative;width:700px;max-width:90vw;}
@@ -336,6 +339,9 @@ function openMobileChPanel(){
   requestAnimationFrame(()=>{requestAnimationFrame(()=>{p.classList.add('open');});});
 }
 function closeMobileChPanel(){const p=document.getElementById('mobile-ch-panel');p.classList.remove('open');setTimeout(()=>{p.style.display='none';},300);}
+
+/* ═══ PARTICLES ═══ */
+(function(){var scene=document.getElementById('bookshelf-scene');for(var i=0;i<30;i++){var p=document.createElement('div');p.className='particle';var s=1+Math.random()*2;var dur=8+Math.random()*12;p.style.cssText='width:'+s+'px;height:'+s+'px;left:'+Math.random()*100+'%;bottom:-'+s+'px;--p-op:'+(0.12+Math.random()*0.2)+';animation-duration:'+dur+'s;animation-delay:-'+(Math.random()*dur)+'s;';scene.appendChild(p);}})();
 
 /* ═══ URL ROUTING ═══ */
 window.addEventListener('popstate',function(e){if(e.state&&e.state.book){if(!curBook||curBookId!==e.state.book){openBook(e.state.book,true);}else{showPage(e.state.page||0);}}else if(curBook){closeBook(true);}});
