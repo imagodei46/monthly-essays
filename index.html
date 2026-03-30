@@ -73,17 +73,40 @@
   .book-left .cur-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;color:var(--text-dark);line-height:1.5;margin-bottom:5px;transition:opacity 0.3s;}
   .book-left .cur-sec{font-family:'Noto Serif KR',serif;font-size:0.66rem;font-weight:300;color:rgba(60,50,40,0.45);line-height:1.5;margin-bottom:28px;min-height:18px;transition:opacity 0.3s;}
   .ch-nav{list-style:none;display:flex;flex-direction:column;gap:1px;}
-  .ch-nav li{font-size:0.6rem;font-weight:300;color:rgba(60,50,40,0.3);padding:5px 9px;border-radius:3px;cursor:pointer;transition:all 0.25s;line-height:1.5;border-left:2px solid transparent;}
-  .ch-nav li:hover{color:rgba(60,50,40,0.55);background:rgba(184,150,62,0.03);}
-  .ch-nav li.active{color:var(--text-dark);font-weight:500;border-left-color:var(--accent-gold);background:rgba(184,150,62,0.06);}
-  .ch-nav .si{padding:3px 9px 3px 20px;font-size:0.54rem;font-weight:400;color:rgba(60,50,40,0.25);border-left:2px solid transparent;}
-  .ch-nav .si:hover{color:rgba(60,50,40,0.45);}
-  .ch-nav .si.ac{color:var(--accent-gold);font-weight:500;border-left-color:rgba(184,150,62,0.3);}
-  .ch-nav .ss{padding:2px 9px 2px 30px;font-size:0.5rem;font-weight:300;color:rgba(60,50,40,0.18);border-left:2px solid transparent;}
-  .ch-nav .ss:hover{color:rgba(60,50,40,0.35);}
-  .ch-nav .ss.ac{color:var(--text-dark);font-weight:400;border-left-color:var(--accent-gold);}
-  .ch-nav li .cn{font-family:'Cormorant Garamond',serif;font-size:0.52rem;color:var(--accent-gold);letter-spacing:0.12em;display:block;margin-bottom:1px;opacity:0.6;}
-  .book-left .bm{margin-top:auto;padding-top:20px;border-top:1px solid rgba(0,0,0,0.05);}
+  /* Chapter items */
+  .book-left .ch-nav .ch{position:relative;font-size:0.6rem;font-weight:300;color:rgba(60,50,40,0.3);padding:5px 9px 5px 22px;cursor:pointer;transition:all 0.25s;line-height:1.5;}
+  .book-left .ch-nav .ch:hover{color:rgba(60,50,40,0.55);}
+  .book-left .ch-nav .ch.active{color:var(--text-dark);font-weight:500;}
+  .book-left .ch-nav .ch>.dot{position:absolute;left:9px;top:7px;font-size:0.5rem;line-height:1;}
+  .book-left .ch-nav .ch>.dot::before{content:'○';color:rgba(60,50,40,0.25);}
+  .book-left .ch-nav .ch.active>.dot::before{content:'●';color:var(--text-dark);}
+  .book-left .ch-nav .ch .cn{font-family:'Cormorant Garamond',serif;font-size:0.52rem;color:rgba(100,90,75,0.45);letter-spacing:0.12em;display:block;margin-bottom:1px;}
+  .book-left .ch-nav .ch.active .cn{color:rgba(60,50,40,0.5);}
+  /* Section items — dot leader */
+  .book-left .ch-nav .si{display:flex;align-items:baseline;gap:4px;padding:3px 9px 3px 22px;font-size:0.54rem;font-weight:400;color:rgba(60,50,40,0.25);cursor:pointer;transition:all 0.25s;line-height:1.5;}
+  .book-left .ch-nav .si:hover{color:rgba(60,50,40,0.45);}
+  .book-left .ch-nav .si.ac{color:var(--accent-gold);font-weight:500;}
+  .book-left .ch-nav .si .dot{flex-shrink:0;font-size:0.4rem;width:6px;text-align:center;}
+  .book-left .ch-nav .si .dot::before{content:'·';color:rgba(60,50,40,0.25);}
+  .book-left .ch-nav .si.ac .dot::before{content:'●';color:var(--accent-gold);}
+  .book-left .ch-nav .si .si-t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%;}
+  .book-left .ch-nav .si .dl{flex:1;border-bottom:1px dotted rgba(60,50,40,0.15);min-width:8px;margin:0 2px;position:relative;top:-2px;}
+  .book-left .ch-nav .si.ac .dl{border-bottom-color:rgba(184,150,62,0.25);}
+  .book-left .ch-nav .si .si-p{font-family:'Cormorant Garamond',serif;font-size:0.5rem;color:rgba(60,50,40,0.3);flex-shrink:0;}
+  .book-left .ch-nav .si.ac .si-p{color:var(--accent-gold);}
+  /* Subsection items — dot leader */
+  .book-left .ch-nav .ss{display:flex;align-items:baseline;gap:4px;padding:2px 9px 2px 32px;font-size:0.5rem;font-weight:300;color:rgba(60,50,40,0.18);cursor:pointer;transition:all 0.25s;line-height:1.5;}
+  .book-left .ch-nav .ss:hover{color:rgba(60,50,40,0.35);}
+  .book-left .ch-nav .ss.ac{color:var(--text-dark);font-weight:400;}
+  .book-left .ch-nav .ss .dot{flex-shrink:0;font-size:0.35rem;width:6px;text-align:center;}
+  .book-left .ch-nav .ss .dot::before{content:'·';color:rgba(60,50,40,0.18);}
+  .book-left .ch-nav .ss.ac .dot::before{content:'●';color:var(--text-dark);}
+  .book-left .ch-nav .ss .si-t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%;}
+  .book-left .ch-nav .ss .dl{flex:1;border-bottom:1px dotted rgba(60,50,40,0.1);min-width:6px;margin:0 2px;position:relative;top:-2px;}
+  .book-left .ch-nav .ss.ac .dl{border-bottom-color:rgba(184,150,62,0.2);}
+  .book-left .ch-nav .ss .si-p{font-family:'Cormorant Garamond',serif;font-size:0.46rem;color:rgba(60,50,40,0.2);flex-shrink:0;}
+  .book-left .ch-nav .ss.ac .si-p{color:var(--text-dark);}
+  .book-left .bm{margin-top:auto;padding-top:20px;border-top:1px dotted rgba(0,0,0,0.08);}
   .book-left .bm-t{font-family:'Playfair Display',serif;font-size:0.62rem;font-weight:400;color:rgba(60,50,40,0.35);margin-bottom:2px;}
   .book-left .bm-d{font-family:'Cormorant Garamond',serif;font-size:0.54rem;color:rgba(60,50,40,0.2);letter-spacing:0.15em;}
 
@@ -250,7 +273,7 @@ chapters:[
 {label:'3부',title:'점을 잇다',startPage:15,sections:['복기(復棋)','Connecting the Dots','Pale Blue Dot']}
 ],
 pages:[
-{ch:0,sec:'',html:`<div class="lbl">Intro</div><div class="dl"></div><p>내가 오래 붙들어온 단어나 표현들 가운데는 이상하리만치 점(點) 또는 dot이 들어간 게 많다.</p><p>누군가가 찍고 지나간 점, 내가 무심히 남긴 점, 어느 날 예고 없이 삶의 궤도를 바꾸어놓은 점 하나.</p><p>그때는 그저 흩어져 있을 뿐이던 것들이, 시간이 흐른 뒤에야 비로소 하나의 무늬를 이룬다.</p><p>어쩌면 인생이란, 그렇게 점을 찍고, 어떤 점에 닿고, 끝내 그 점들을 이어보는 일인지도 모른다.</p>`},
+{ch:0,sec:'',html:`<div class="lbl">Intro</div><div class="dl"></div><p>유클리드는 점을 '부분이 없는 것'이라 정의했다. 길이도 넓이도 없는, 더 나눌 수 없는 최소의 형상. 그런데 모든 선과 도형은 결국 그 점에서 시작된다.</p><p>돌이켜보면 내 삶의 변곡점마다 몇 개의 점이 놓여 있었다. 기꺼이 선택한 자리, 유난히 힘주어 읽게 된 대목, 그리고 이전으로 돌아갈 수 없게 만든 순간.</p><p>그때는 흩어진 파편처럼 보이던 것들이 시간이 흐른 뒤에야 비로소 하나의 무늬를 이룬다. 어쩌면 인생이란 그렇게 점을 찍고, 어떤 점에 닿고, 끝내 그 점들을 이어보는 일인지도 모른다.</p>`},
 {ch:1,sec:'착점(着點) : 삶의 자리를 정하는 일',subsec:'유한한 점, 무한한 수',html:`<div class="lbl">1부</div><h2>점을 찍다</h2><div class="dl"></div><h3>착점(着點) : 삶의 자리를 정하는 일</h3><p class="lbl">유한한 점, 무한한 수</p><p>바둑에서 돌을 놓는 자리를 착점이라 한다. 가로세로 19줄이 만든 361개의 교차점. 그 가운데 하나를 골라 돌을 놓는다. 한번 놓은 돌은 다시 물릴 수 없고, 체스나 장기처럼 옮겨 다닐 수도 없다. 그 자리에 남아 살거나 죽을 뿐이다.</p><p>흥미로운 점은 똑같은 바둑판 위에서 벌어지는 대국임에도 세상에 같은 기보는 단 하나도 없다는 사실이다. 경우의 수가 무한에 가깝기 때문이다. 유한한 점들 위에서 무한한 가능성이 열린다는 것, 인생도 이와 닮았다. <span class="hl">누구나 똑같은 24시간의 격자 위를 살아가지만, 그 위에 찍히는 하루는 단 하루도 같지 않다.</span></p><p>누군가의 치열한 수가 모인 삶을 볼 때 가슴이 두근거리는 건, 그가 선택한 그 자리의 무게를 알기 때문일 것이다.</p>`},
 {ch:1,sec:'착점(着點) : 삶의 자리를 정하는 일',subsec:'그만이 놓을 수 있는 수',html:`<p class="lbl">그만이 놓을 수 있는 수</p><p>나는 류이치 사카모토를 오래도록 좋아해왔다. 그의 음악뿐 아니라, 그가 생의 마지막에 남긴 궤적은 내 인생의 키워드인 '나누다'에 깊은 영감을 주었다.</p><p>최근 그의 기록을 담은 영화 두 편을 연이어 보았다. 하나는 아직 국내 정식 개봉 전인 &lt;Ryuichi Sakamoto: Diaries&gt;, 또 하나는 1985년 작 &lt;Ryuichi Sakamoto: Tokyo Melody&gt;다.</p><p>1985년 작 &lt;Tokyo Melody&gt; 속 사카모토는 서른둘의 청년이었다. 최첨단 신시사이저를 능숙하게 다루고, 공원에서 장난감 총의 전자음에 귀를 기울이며 세상을 호기심 어린 눈으로 관찰하던 사람. 80년대 도쿄의 폭발적인 에너지와 함께 담긴 그의 모습은 그 자체로 하나의 선명한 '점'이었다.</p><p>그로부터 40년 뒤를 기록한 &lt;Diaries&gt;는 전혀 다른 색채를 띤다. 암 투병 중인 그가 자신의 시간이 얼마 남지 않았음을 직시하며 기록한 마지막 3년 반의 기록. '내 인생은 끝났다'고 좌절하다가도 주치의에게 '10년은 더 음악을 만들고 싶다'며 의지를 불태우는 모습은 처절하고도 아름다웠다.</p>`},
 {ch:1,sec:'착점(着點) : 삶의 자리를 정하는 일',subsec:'그만이 놓을 수 있는 수',html:`<p>특히 병상에서도 재해 지역 아이들을 위한 오케스트라 연주를 보며 눈물짓고, 전쟁 중인 우크라이나의 바이올리니스트에게 곡을 선물하던 장면이 잊히지 않는다.</p><p><span class="hl">호기심 어린 눈으로 소리를 쫓던 청년은, 마지막까지 누군가에게 소리를 건네는 사람이 되어 있었다.</span> 그것은 오직 그만이 놓을 수 있는, 생을 건 착점이었다.</p>`},
@@ -331,7 +354,7 @@ function updateLeft(){
     l.className='book-left';
     const ap=document.querySelector('#book-right .rp[data-idx="'+curPage+'"]'),chIdx=parseInt(ap.dataset.ch),sec=ap.dataset.sec||'',subsec=ap.dataset.subsec||'',ch=curBook.chapters[chIdx];
     let h=`<div class="cur-label">${ch.label}</div><div class="cur-title">${ch.title}</div><div class="cur-sec">${subsec||sec}</div><ul class="ch-nav">`;
-    curBook.chapters.forEach((c,i)=>{var isCur=i===chIdx;h+=`<li class="${isCur?'active':''}" onclick="goToChapter(${i})"><span class="cn">${c.label}</span>${c.title}</li>`;if(isCur&&c.sections)c.sections.forEach(s=>{var st=typeof s==='string'?s:s.t,subs=typeof s==='object'&&s.sub?s.sub:null,sa=sec===st;h+=`<li class="si${sa?' ac':''}" data-sec="${st}" onclick="event.stopPropagation();goToSection(${i},this)">${st}</li>`;if(subs)subs.forEach(sub=>{h+=`<li class="ss${sa&&subsec===sub?' ac':''}" data-sec="${st}" data-subsec="${sub}" onclick="event.stopPropagation();goToSection(${i},this)">${sub}</li>`;});});});
+    curBook.chapters.forEach((c,i)=>{var isCur=i===chIdx;h+=`<li class="ch${isCur?' active':''}" onclick="goToChapter(${i})"><span class="dot"></span><span class="cn">${c.label}</span>${c.title}</li>`;if(isCur&&c.sections)c.sections.forEach(s=>{var st=typeof s==='string'?s:s.t,subs=typeof s==='object'&&s.sub?s.sub:null,sa=sec===st;var fp=document.querySelector('#book-right .rp[data-ch="'+i+'"][data-sec="'+st+'"]');var pn=fp?fp.dataset.idx:'';h+=`<li class="si${sa?' ac':''}" data-sec="${st}" onclick="event.stopPropagation();goToSection(${i},this)"><span class="dot"></span><span class="si-t">${st}</span><span class="dl"></span><span class="si-p">${pn}</span></li>`;if(subs)subs.forEach(sub=>{var sfp=document.querySelector('#book-right .rp[data-ch="'+i+'"][data-sec="'+st+'"][data-subsec="'+sub+'"]');var spn=sfp?sfp.dataset.idx:'';h+=`<li class="ss${sa&&subsec===sub?' ac':''}" data-sec="${st}" data-subsec="${sub}" onclick="event.stopPropagation();goToSection(${i},this)"><span class="dot"></span><span class="si-t">${sub}</span><span class="dl"></span><span class="si-p">${spn}</span></li>`;});});});
     h+=`</ul><div class="bm"><div class="bm-t">${curBook.title}</div><div class="bm-d">${curBook.date}</div></div>`;
     l.innerHTML=h;
   }
