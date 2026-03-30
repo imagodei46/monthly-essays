@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JK's Library</title>
-<meta name="description" content="JK의 월간 에세이 — 디지털과 아날로그 OS 사이를 유영하는 기록">
+<meta name="description" content="JK의 월간 에세이 — 매달 한 편, 삶의 점들을 잇는 기록">
 <meta property="og:type" content="website">
 <meta property="og:title" content="JK's Library — Monthly Essays">
-<meta property="og:description" content="매달 한 편, 나만의 언어로 기록하는 에세이">
+<meta property="og:description" content="매달 한 편, 삶의 점들을 잇는 에세이 컬렉션">
 <meta property="og:image" content="https://imagodei46.github.io/monthly-essays/og-image.png">
 <meta property="og:url" content="https://imagodei46.github.io/monthly-essays/">
 <link rel="canonical" href="https://imagodei46.github.io/monthly-essays/">
@@ -201,8 +201,8 @@
   <div class="shelf-unit"><div class="shelf-row">
     <div class="shelf-bracket left"></div><div class="shelf-bracket right"></div>
     <div class="book-placeholder bp3" style="height:162px;opacity:.12"></div>
-    <div class="book-spine book-1" onclick="openBook('my-new-os')" title="My New OS — 2026.02" tabindex="0" role="button" aria-label="My New OS — 2026년 2월 에세이 열기"><div class="spine-decoration" style="background:#5B8DEF"></div><div class="spine-title" style="color:#8BB4F7">My New OS</div><div class="spine-year" style="color:#8BB4F7">2026</div><div class="spine-decoration" style="background:#5B8DEF"></div></div>
-    <div class="book-new-wrap"><span class="new-badge">new</span><div class="book-spine book-2" onclick="openBook('dot-dot-dot')" title="점, 점, 점 — 2026.03" tabindex="0" role="button" aria-label="점, 점, 점 — 2026년 3월 에세이 열기"><div class="spine-decoration" style="background:#D4B96A"></div><div class="spine-title" style="color:#D4B96A">점・점・점</div><div class="spine-year" style="color:#D4B96A">2026</div><div class="spine-decoration" style="background:#D4B96A"></div></div></div>
+    <div class="book-spine book-1" onclick="openBook('my-new-os')" title="My New OS — 2026.02" tabindex="0" role="button" aria-label="My New OS — 2026년 2월 에세이 열기"><div class="spine-decoration" style="background:#5B8DEF"></div><div class="spine-title" style="color:#8BB4F7">My New OS</div><div class="spine-year" style="color:#8BB4F7">2026.02</div><div class="spine-decoration" style="background:#5B8DEF"></div></div>
+    <div class="book-new-wrap"><span class="new-badge">new</span><div class="book-spine book-2" onclick="openBook('dot-dot-dot')" title="점, 점, 점 — 2026.03" tabindex="0" role="button" aria-label="점, 점, 점 — 2026년 3월 에세이 열기"><div class="spine-decoration" style="background:#D4B96A"></div><div class="spine-title" style="color:#D4B96A">점・점・점</div><div class="spine-year" style="color:#D4B96A">2026.03</div><div class="spine-decoration" style="background:#D4B96A"></div></div></div>
     <div class="book-placeholder bp1" style="height:155px;opacity:.1"></div>
     <div class="book-placeholder bp4" style="height:164px;opacity:.08"></div>
     <div class="book-placeholder bp2" style="height:158px;opacity:.06"></div>
@@ -267,7 +267,7 @@ pages:[
 };
 
 let curBook=null,curBookId=null,curPage=0,totalPages=0;
-function openBook(id,noPush){curBook=books[id];curBookId=id;curPage=0;document.getElementById('bookshelf-scene').classList.add('hidden');document.getElementById('book-reader').classList.add('active');document.fonts.ready.then(function(){buildPages();if(noPush&&location.hash){var parts=location.hash.slice(1).split('/p');if(parts[1]){var pg=parseInt(parts[1]);if(!isNaN(pg))showPage(pg);}}});if(!noPush)history.pushState({book:id,page:0},'','#'+id);}
+function openBook(id,noPush){curBook=books[id];curBookId=id;curPage=0;document.getElementById('bookshelf-scene').classList.add('hidden');document.getElementById('book-reader').classList.add('active');document.fonts.ready.then(function(){buildPages();var resumed=false;if(noPush&&location.hash){var parts=location.hash.slice(1).split('/p');if(parts[1]){var pg=parseInt(parts[1]);if(!isNaN(pg)){showPage(pg);resumed=true;}}}if(!resumed){var saved=localStorage.getItem('essay-pos-'+id);if(saved){var sp=parseInt(saved);var total=document.querySelectorAll('#book-right .rp').length;if(!isNaN(sp)&&sp>0&&sp<total)showPage(sp);}}});if(!noPush)history.pushState({book:id,page:0},'','#'+id);}
 function closeBook(noPush){if(!curBook)return;document.getElementById('book-reader').classList.remove('active');setTimeout(()=>document.getElementById('bookshelf-scene').classList.remove('hidden'),300);curBook=null;curBookId=null;if(!noPush)history.pushState({},'',location.pathname);}
 function buildPages(){
   const r=document.getElementById('book-right');
@@ -313,7 +313,7 @@ function autoPaginate(container){
 function showPage(idx){
   document.querySelectorAll('#book-right .rp').forEach(p=>{const i=parseInt(p.dataset.idx);p.classList.remove('active','exit');if(i===idx){p.classList.add('active');p.scrollTop=0;}else if(i<idx)p.classList.add('exit');});
   curPage=idx;updateLeft();updateInfo();updateNav();
-  if(curBookId){var h=idx===0?'#'+curBookId:'#'+curBookId+'/p'+idx;history.replaceState({book:curBookId,page:idx},'',h);}
+  if(curBookId){var h=idx===0?'#'+curBookId:'#'+curBookId+'/p'+idx;history.replaceState({book:curBookId,page:idx},'',h);try{localStorage.setItem('essay-pos-'+curBookId,idx);}catch(e){}}
 }
 function updateLeft(){
   const l=document.getElementById('book-left');
