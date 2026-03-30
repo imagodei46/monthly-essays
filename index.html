@@ -61,7 +61,8 @@
   /* ═══ READER ═══ */
   #book-reader{position:fixed;top:0;left:0;width:100%;height:100%;height:100dvh;background:rgba(20,18,14,0.95);display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.5s ease;z-index:100;padding-bottom:env(safe-area-inset-bottom,0px);}
   #book-reader.active{opacity:1;pointer-events:all;}
-  .reader-header{display:flex;align-items:center;justify-content:space-between;width:960px;max-width:94vw;margin-bottom:12px;padding:0 4px;}
+  .reader-header{display:flex;align-items:center;justify-content:space-between;width:960px;max-width:94vw;margin-bottom:12px;padding:0 4px;position:relative;}
+  .reading-progress{position:absolute;bottom:0;left:0;height:2px;background:var(--accent-gold);opacity:0.7;transition:width 0.35s ease;pointer-events:none;}
   .mobile-ch-label{display:none;}
   .reader-back{font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:rgba(200,180,140,0.5);background:none;border:none;cursor:pointer;letter-spacing:0.15em;transition:color 0.3s;padding:8px 0;}
   .reader-back:hover{color:rgba(200,180,140,0.8);}
@@ -70,46 +71,46 @@
   /* ═══ BOOK SPREAD ═══ */
   .book-spread{width:960px;height:640px;max-width:94vw;max-height:80vh;display:flex;position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.5),0 2px 10px rgba(0,0,0,0.3);border-radius:6px;}
   .book-left{width:50%;height:100%;background:var(--page-aged);border-radius:6px 0 0 6px;display:flex;flex-direction:column;justify-content:center;padding:44px 32px 40px 36px;position:relative;overflow:hidden;box-shadow:inset -4px 0 12px rgba(0,0,0,0.06);}
-  .book-left .cur-label{font-family:'Cormorant Garamond',serif;font-size:0.56rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent-gold);margin-bottom:8px;opacity:0.7;}
+  .book-left .cur-label{font-family:'Cormorant Garamond',serif;font-size:0.64rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent-gold);margin-bottom:8px;opacity:0.7;}
   .book-left .cur-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;color:var(--text-dark);line-height:1.5;margin-bottom:5px;transition:opacity 0.3s;}
-  .book-left .cur-sec{font-family:'Noto Serif KR',serif;font-size:0.66rem;font-weight:300;color:rgba(60,50,40,0.45);line-height:1.5;margin-bottom:28px;min-height:18px;transition:opacity 0.3s;}
+  .book-left .cur-sec{font-family:'Noto Serif KR',serif;font-size:0.74rem;font-weight:300;color:rgba(60,50,40,0.45);line-height:1.5;margin-bottom:28px;min-height:18px;transition:opacity 0.3s;}
   .ch-nav{list-style:none;display:flex;flex-direction:column;gap:1px;}
   /* Chapter items */
-  .book-left .ch-nav .ch{position:relative;font-size:0.6rem;font-weight:300;color:rgba(60,50,40,0.3);padding:5px 9px 5px 22px;cursor:pointer;transition:all 0.25s;line-height:1.5;}
+  .book-left .ch-nav .ch{position:relative;font-size:0.7rem;font-weight:300;color:rgba(60,50,40,0.3);padding:5px 9px 5px 24px;cursor:pointer;transition:all 0.25s;line-height:1.5;}
   .book-left .ch-nav .ch:hover{color:rgba(60,50,40,0.55);}
   .book-left .ch-nav .ch.active{color:var(--text-dark);font-weight:500;}
-  .book-left .ch-nav .ch>.dot{position:absolute;left:9px;top:7px;font-size:0.5rem;line-height:1;}
+  .book-left .ch-nav .ch>.dot{position:absolute;left:9px;top:7px;font-size:0.58rem;line-height:1;}
   .book-left .ch-nav .ch>.dot::before{content:'○';color:rgba(60,50,40,0.25);}
   .book-left .ch-nav .ch.active>.dot::before{content:'●';color:var(--text-dark);}
-  .book-left .ch-nav .ch .cn{font-family:'Cormorant Garamond',serif;font-size:0.52rem;color:rgba(100,90,75,0.45);letter-spacing:0.12em;display:block;margin-bottom:1px;}
+  .book-left .ch-nav .ch .cn{font-family:'Cormorant Garamond',serif;font-size:0.6rem;color:rgba(100,90,75,0.45);letter-spacing:0.12em;display:block;margin-bottom:1px;}
   .book-left .ch-nav .ch.active .cn{color:rgba(60,50,40,0.5);}
   /* Section items — dot leader */
-  .book-left .ch-nav .si{display:flex;align-items:baseline;gap:4px;padding:3px 9px 3px 22px;font-size:0.54rem;font-weight:400;color:rgba(60,50,40,0.25);cursor:pointer;transition:all 0.25s;line-height:1.5;}
+  .book-left .ch-nav .si{display:flex;align-items:baseline;gap:4px;padding:3px 9px 3px 24px;font-size:0.64rem;font-weight:400;color:rgba(60,50,40,0.25);cursor:pointer;transition:all 0.25s;line-height:1.5;}
   .book-left .ch-nav .si:hover{color:rgba(60,50,40,0.45);}
   .book-left .ch-nav .si.ac{color:var(--accent-gold);font-weight:500;}
-  .book-left .ch-nav .si .dot{flex-shrink:0;font-size:0.4rem;width:6px;text-align:center;}
+  .book-left .ch-nav .si .dot{flex-shrink:0;font-size:0.48rem;width:7px;text-align:center;}
   .book-left .ch-nav .si .dot::before{content:'·';color:rgba(60,50,40,0.25);}
   .book-left .ch-nav .si.ac .dot::before{content:'●';color:var(--accent-gold);}
   .book-left .ch-nav .si .si-t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%;}
   .book-left .ch-nav .si .dl{flex:1;border-bottom:1px dotted rgba(60,50,40,0.15);min-width:8px;margin:0 2px;position:relative;top:-2px;}
   .book-left .ch-nav .si.ac .dl{border-bottom-color:rgba(184,150,62,0.25);}
-  .book-left .ch-nav .si .si-p{font-family:'Cormorant Garamond',serif;font-size:0.5rem;color:rgba(60,50,40,0.3);flex-shrink:0;}
+  .book-left .ch-nav .si .si-p{font-family:'Cormorant Garamond',serif;font-size:0.58rem;color:rgba(60,50,40,0.3);flex-shrink:0;}
   .book-left .ch-nav .si.ac .si-p{color:var(--accent-gold);}
   /* Subsection items — dot leader */
-  .book-left .ch-nav .ss{display:flex;align-items:baseline;gap:4px;padding:2px 9px 2px 32px;font-size:0.5rem;font-weight:300;color:rgba(60,50,40,0.18);cursor:pointer;transition:all 0.25s;line-height:1.5;}
+  .book-left .ch-nav .ss{display:flex;align-items:baseline;gap:4px;padding:2px 9px 2px 34px;font-size:0.58rem;font-weight:300;color:rgba(60,50,40,0.18);cursor:pointer;transition:all 0.25s;line-height:1.5;}
   .book-left .ch-nav .ss:hover{color:rgba(60,50,40,0.35);}
   .book-left .ch-nav .ss.ac{color:var(--text-dark);font-weight:400;}
-  .book-left .ch-nav .ss .dot{flex-shrink:0;font-size:0.35rem;width:6px;text-align:center;}
+  .book-left .ch-nav .ss .dot{flex-shrink:0;font-size:0.42rem;width:7px;text-align:center;}
   .book-left .ch-nav .ss .dot::before{content:'·';color:rgba(60,50,40,0.18);}
   .book-left .ch-nav .ss.ac .dot::before{content:'●';color:var(--text-dark);}
   .book-left .ch-nav .ss .si-t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%;}
   .book-left .ch-nav .ss .dl{flex:1;border-bottom:1px dotted rgba(60,50,40,0.1);min-width:6px;margin:0 2px;position:relative;top:-2px;}
   .book-left .ch-nav .ss.ac .dl{border-bottom-color:rgba(184,150,62,0.2);}
-  .book-left .ch-nav .ss .si-p{font-family:'Cormorant Garamond',serif;font-size:0.46rem;color:rgba(60,50,40,0.2);flex-shrink:0;}
+  .book-left .ch-nav .ss .si-p{font-family:'Cormorant Garamond',serif;font-size:0.54rem;color:rgba(60,50,40,0.2);flex-shrink:0;}
   .book-left .ch-nav .ss.ac .si-p{color:var(--text-dark);}
   .book-left .bm{margin-top:auto;padding-top:20px;border-top:1px dotted rgba(0,0,0,0.08);}
-  .book-left .bm-t{font-family:'Playfair Display',serif;font-size:0.62rem;font-weight:400;color:rgba(60,50,40,0.35);margin-bottom:2px;}
-  .book-left .bm-d{font-family:'Cormorant Garamond',serif;font-size:0.54rem;color:rgba(60,50,40,0.2);letter-spacing:0.15em;}
+  .book-left .bm-t{font-family:'Playfair Display',serif;font-size:0.7rem;font-weight:400;color:rgba(60,50,40,0.35);margin-bottom:2px;}
+  .book-left .bm-d{font-family:'Cormorant Garamond',serif;font-size:0.62rem;color:rgba(60,50,40,0.2);letter-spacing:0.15em;}
 
   /* Cover mode left */
   .book-left.cover-mode{justify-content:center;align-items:center;text-align:center;}
@@ -242,7 +243,7 @@
 </div>
 
 <div id="book-reader">
-  <div class="reader-header"><button class="reader-back" onclick="closeBook()">&#8592; Back to shelf</button><div class="mobile-ch-label" id="mobile-ch-label"></div><div class="reader-page-info" id="page-info"></div></div>
+  <div class="reader-header"><button class="reader-back" onclick="closeBook()">&#8592; Back to shelf</button><div class="mobile-ch-label" id="mobile-ch-label"></div><div class="reader-page-info" id="page-info"></div><div class="reading-progress" id="reading-progress"></div></div>
   <div class="book-spread"><div class="book-left" id="book-left"></div><div class="book-right" id="book-right" onclick="handleRightClick(event)"><div class="spine-shadow"></div></div></div>
   <div class="nav-hint"><button class="nav-arrow" id="nav-prev" onclick="goPrev()">&#8249;</button><button class="mobile-ch-toggle" id="mobile-ch-btn" onclick="toggleMobileChPanel()" style="background:none;border:1px solid rgba(200,180,140,0.2);color:rgba(200,180,140,0.4);height:36px;line-height:36px;padding:0 14px;border-radius:18px;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:0.66rem;letter-spacing:0.1em;transition:all 0.3s;">Index</button><span class="nav-hint-text">arrow keys to navigate</span><button class="nav-arrow" id="nav-next" onclick="goNext()">&#8250;</button></div>
   <div class="mobile-ch-panel" id="mobile-ch-panel"><button class="mp-close" onclick="closeMobileChPanel()">&#10005;</button><div class="mp-title">Index</div><ul class="ch-nav" id="mobile-ch-nav"></ul></div>
@@ -366,7 +367,7 @@ function goToSection(ci,el){var st=el.getAttribute('data-sec'),sst=el.getAttribu
 function goNext(){if(curPage<totalPages-1)showPage(curPage+1);}
 function goPrev(){if(curPage>0)showPage(curPage-1);}
 function updateInfo(){document.getElementById('page-info').textContent=curPage===0?'Cover':`${curPage} / ${totalPages-1}`;var ml=document.getElementById('mobile-ch-label');if(curPage===0||!curBook){ml.textContent='';}else{var ap=document.querySelector('#book-right .rp[data-idx="'+curPage+'"]');if(ap){var ch=curBook.chapters[parseInt(ap.dataset.ch)];ml.textContent=ap.dataset.sec||(ch?ch.title:'');}else{ml.textContent='';}}}
-function updateNav(){document.getElementById('nav-prev').disabled=(curPage<=0);document.getElementById('nav-next').disabled=(curPage>=totalPages-1);}
+function updateNav(){document.getElementById('nav-prev').disabled=(curPage<=0);document.getElementById('nav-next').disabled=(curPage>=totalPages-1);document.getElementById('reading-progress').style.width=totalPages>1?(curPage/(totalPages-1)*100)+'%':'0%';}
 function handleRightClick(e){const rect=document.getElementById('book-right').getBoundingClientRect();const x=e.clientX-rect.left;if(x<rect.width/2)goPrev();else goNext();}
 document.addEventListener('keydown',e=>{if(!document.getElementById('book-reader').classList.contains('active'))return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goNext();}if(e.key==='ArrowLeft'){e.preventDefault();goPrev();}if(e.key==='Escape')closeBook();});
 document.querySelectorAll('.book-spine').forEach(s=>{s.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();s.click();}});});
