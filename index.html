@@ -79,9 +79,12 @@
   .book-left .ch-nav .ch{position:relative;font-size:0.7rem;font-weight:300;color:rgba(60,50,40,0.3);padding:5px 9px 5px 24px;cursor:pointer;transition:all 0.25s;line-height:1.5;}
   .book-left .ch-nav .ch:hover{color:rgba(60,50,40,0.55);}
   .book-left .ch-nav .ch.active{color:var(--text-dark);font-weight:500;}
-  .book-left .ch-nav .ch>.dot{position:absolute;left:9px;top:7px;font-size:0.58rem;line-height:1;}
-  .book-left .ch-nav .ch>.dot::before{content:'○';color:rgba(60,50,40,0.25);}
-  .book-left .ch-nav .ch.active>.dot::before{content:'●';color:var(--text-dark);}
+  .book-left .ch-nav .ch>.dot{position:absolute;left:9px;top:8px;width:8px;height:8px;border-radius:50%;border:1px solid rgba(60,50,40,0.2);overflow:hidden;}
+  .book-left .ch-nav .ch>.dot::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:var(--fill,0%);background:rgba(60,50,40,0.3);transition:height 0.35s ease;}
+  .book-left .ch-nav .ch.read>.dot{border-color:rgba(184,150,62,0.4);}
+  .book-left .ch-nav .ch.read>.dot::after{background:rgba(184,150,62,0.5);}
+  .book-left .ch-nav .ch.active>.dot{border-color:var(--accent-gold);}
+  .book-left .ch-nav .ch.active>.dot::after{background:var(--accent-gold);}
   .book-left .ch-nav .ch .cn{font-family:'Cormorant Garamond',serif;font-size:0.6rem;color:rgba(100,90,75,0.45);letter-spacing:0.12em;display:block;margin-bottom:1px;}
   .book-left .ch-nav .ch.active .cn{color:rgba(60,50,40,0.5);}
   /* Section items — dot leader */
@@ -357,7 +360,7 @@ function updateLeft(){
     l.className='book-left';
     const ap=document.querySelector('#book-right .rp[data-idx="'+curPage+'"]'),chIdx=parseInt(ap.dataset.ch),sec=ap.dataset.sec||'',subsec=ap.dataset.subsec||'',ch=curBook.chapters[chIdx];
     let h=`<div class="cur-label">${ch.label}</div><div class="cur-title">${ch.title}</div><div class="cur-sec">${subsec||sec}</div><ul class="ch-nav">`;
-    curBook.chapters.forEach((c,i)=>{var isCur=i===chIdx;h+=`<li class="ch${isCur?' active':''}" onclick="goToChapter(${i})"><span class="dot"></span><span class="cn">${c.label}</span>${c.title}</li>`;if(isCur&&c.sections)c.sections.forEach(s=>{var st=typeof s==='string'?s:s.t,subs=typeof s==='object'&&s.sub?s.sub:null,sa=sec===st;var fp=document.querySelector('#book-right .rp[data-ch="'+i+'"][data-sec="'+st+'"]');var pn=fp?fp.dataset.idx:'';h+=`<li class="si${sa?' ac':''}" data-sec="${st}" onclick="event.stopPropagation();goToSection(${i},this)"><span class="dot"></span><span class="si-t">${st}</span><span class="dl"></span><span class="si-p">${pn}</span></li>`;if(subs)subs.forEach(sub=>{var sfp=document.querySelector('#book-right .rp[data-ch="'+i+'"][data-sec="'+st+'"][data-subsec="'+sub+'"]');var spn=sfp?sfp.dataset.idx:'';h+=`<li class="ss${sa&&subsec===sub?' ac':''}" data-sec="${st}" data-subsec="${sub}" onclick="event.stopPropagation();goToSection(${i},this)"><span class="dot"></span><span class="si-t">${sub}</span><span class="dl"></span><span class="si-p">${spn}</span></li>`;});});});
+    curBook.chapters.forEach((c,i)=>{var isCur=i===chIdx;var chPages=document.querySelectorAll('#book-right .rp[data-ch="'+i+'"]');var firstIdx=Infinity,lastIdx=-1;chPages.forEach(function(p){var idx=parseInt(p.dataset.idx);if(idx<firstIdx)firstIdx=idx;if(idx>lastIdx)lastIdx=idx;});var fill=i<chIdx?100:(i===chIdx&&lastIdx>firstIdx?Math.round((curPage-firstIdx)/(lastIdx-firstIdx)*100):0);var cls=isCur?' active':(i<chIdx?' read':'');h+=`<li class="ch${cls}" onclick="goToChapter(${i})"><span class="dot" style="--fill:${fill}%"></span><span class="cn">${c.label}</span>${c.title}</li>`;if(isCur&&c.sections)c.sections.forEach(s=>{var st=typeof s==='string'?s:s.t,subs=typeof s==='object'&&s.sub?s.sub:null,sa=sec===st;var fp=document.querySelector('#book-right .rp[data-ch="'+i+'"][data-sec="'+st+'"]');var pn=fp?fp.dataset.idx:'';h+=`<li class="si${sa?' ac':''}" data-sec="${st}" onclick="event.stopPropagation();goToSection(${i},this)"><span class="dot"></span><span class="si-t">${st}</span><span class="dl"></span><span class="si-p">${pn}</span></li>`;if(subs)subs.forEach(sub=>{var sfp=document.querySelector('#book-right .rp[data-ch="'+i+'"][data-sec="'+st+'"][data-subsec="'+sub+'"]');var spn=sfp?sfp.dataset.idx:'';h+=`<li class="ss${sa&&subsec===sub?' ac':''}" data-sec="${st}" data-subsec="${sub}" onclick="event.stopPropagation();goToSection(${i},this)"><span class="dot"></span><span class="si-t">${sub}</span><span class="dl"></span><span class="si-p">${spn}</span></li>`;});});});
     h+=`</ul><div class="bm"><div class="bm-t">${curBook.title}</div><div class="bm-d">${curBook.date}</div></div>`;
     l.innerHTML=h;
   }
