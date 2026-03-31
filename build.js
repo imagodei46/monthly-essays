@@ -48,11 +48,13 @@ function parseBody(body) {
   const chapterMeta = [];
   let ch = -1, sec = '', subsec = '', html = '';
   let lastHeading = false;
+  let pageSubsecs = [];
 
   function flush() {
     if (html) {
-      pages.push({ ch, sec, subsec: subsec || undefined, html });
+      pages.push({ ch, sec, subsec: subsec || undefined, _subs: pageSubsecs.slice(), html });
       html = '';
+      pageSubsecs = [];
     }
   }
 
@@ -92,10 +94,10 @@ function parseBody(body) {
       continue;
     }
 
-    // Subsection: ### Title
+    // Subsection: ### Title (soft — no page break)
     if (/^### /.test(trimmed)) {
-      if (!lastHeading) flush();
       subsec = trimmed.slice(4).trim();
+      pageSubsecs.push(subsec);
       html += '<p class="lbl">' + inlineFormat(subsec) + '</p>';
       lastHeading = true;
       continue;
@@ -152,16 +154,19 @@ function deriveChapters(pages, chapterMeta) {
     const ch = chapters[chapters.length - 1];
     if (!pg.sec) continue;
 
+    const subsecList = pg._subs && pg._subs.length > 0 ? pg._subs : (pg.subsec ? [pg.subsec] : []);
     let entry = ch._secs.find(s => (typeof s === 'object' ? s.t : s) === pg.sec);
     if (!entry) {
-      if (pg.subsec) {
-        entry = { t: pg.sec, sub: [pg.subsec] };
+      if (subsecList.length > 0) {
+        entry = { t: pg.sec, sub: [...subsecList] };
         ch._secs.push(entry);
       } else {
         ch._secs.push(pg.sec);
       }
-    } else if (pg.subsec && typeof entry === 'object') {
-      if (!entry.sub.includes(pg.subsec)) entry.sub.push(pg.subsec);
+    } else if (typeof entry === 'object') {
+      for (const sub of subsecList) {
+        if (!entry.sub.includes(sub)) entry.sub.push(sub);
+      }
     }
   }
 
