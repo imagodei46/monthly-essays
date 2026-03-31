@@ -61,7 +61,7 @@ function parseBody(body) {
     if (trimmed === '') continue;
 
     // Page break
-    if (trimmed === '---') { flush(); lastHeading = false; continue; }
+    if (trimmed === '---') { html += '<div class="pb"></div>'; lastHeading = false; continue; }
 
     // Chapter: # Label | Title
     if (/^# /.test(trimmed) && !/^## /.test(trimmed)) {
