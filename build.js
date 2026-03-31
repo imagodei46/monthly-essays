@@ -94,8 +94,9 @@ function parseBody(body) {
       continue;
     }
 
-    // Subsection: ### Title (soft — no page break)
+    // Subsection: ### Title
     if (/^### /.test(trimmed)) {
+      if (!lastHeading) flush();
       subsec = trimmed.slice(4).trim();
       pageSubsecs.push(subsec);
       html += '<p class="lbl">' + inlineFormat(subsec) + '</p>';
