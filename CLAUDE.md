@@ -44,6 +44,11 @@ monthly-essays/
 - **URL routing**: hash-based (`#book-id/pN`), pushState for open/close, replaceState for page turns
 - **Content separation**: Markdown source → build script → patched `index.html` between `/*--BOOKS-START--*/` and `/*--BOOKS-END--*/` markers
 
+## Typography (한국어 본문)
+- `text-align: justify` + `word-break: normal` (keep-all 없이) = JK가 선호하는 한국어 조판
+- keep-all을 빼면 음절 단위 줄바꿈 → justify가 글자 수준 미세 조정 → 밀도 균일 + 우측 정렬
+- 한국어 책·신문의 표준 조판 방식과 동일
+
 ## Known Limitations
 - Content lives inside JS — not SEO-crawlable
 - CSS class names are abbreviated (`.rp`, `.ci`, `.cl`) — see inline comments for meaning
